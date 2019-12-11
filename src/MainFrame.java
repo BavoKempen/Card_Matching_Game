@@ -95,7 +95,9 @@ public class MainFrame extends JFrame {
 
     }
     public void gameOn(){
+
         cardLayout.show(mainPanel, "gamePanel");
+
     }
 }
 

@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CloseOnExit implements ActionListener {
+    boolean closeMainFrame = false;
     JDialog exitFrame;
     MainFrame mainFrame;
     @Override
@@ -13,10 +14,12 @@ public class CloseOnExit implements ActionListener {
 
         if (confirmed == JOptionPane.YES_OPTION) {
             exitFrame.dispose();
-            mainFrame.dispose();
+            closeMainFrame = true;
+
 
         } else
             exitFrame.dispose();
+            closeMainFrame = false;
 
     }
 }
