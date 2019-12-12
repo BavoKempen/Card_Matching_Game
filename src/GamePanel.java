@@ -1,60 +1,116 @@
 import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Random;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+
 
 public class GamePanel extends JPanel {
 
-    private ImageIcon cardIconList[];
+    private final ImageIcon backIcon = new ImageIcon("Files/shoes/8.jpg");
+    private List<CardClass> cards;
+    private CardClass selectedCard;
+    private CardClass c1;
+    private CardClass c2;
+    private Timer t;
+
 
     public GamePanel(){
-        this.setSize(200,500);
-        this.setLayout(new GridLayout(4,4));
-        this.cardIconList = readInIcons();
 
-        ImageIcon backIcon = this.cardIconList[8];
-        ControlCards controlCards = new ControlCards();
+        int pairs = 8;
+        List<CardClass> cardsList = new ArrayList<>();
+        List<ImageIcon> cardIconList = new ArrayList<>();
 
-
-        int cardsToAdd[] = new int[16];
-        for (int i = 0; i<8;i++){
-            cardsToAdd[2*i] =i;
-            cardsToAdd[2*i+1]=i;
-        }
-
-        //randomize
-        randomizeCardArray(cardsToAdd);
-        for(int i=0;i<cardsToAdd.length;i++){
-            int num = cardsToAdd[i];
-            CardClass newCard = new CardClass(controlCards, this.cardIconList[num], backIcon, num);
-            add(newCard);
-        }
-        return;
-
-    }
-
-    private void randomizeCardArray(int[] t) {
-        Random randomizer = new Random();
-        for (int i=0; i<t.length;i++){
-            int d=randomizer.nextInt(t.length);
-            //swap
-            int s=t[d];
-            t[d] = t[i];
-            t[i] = s;
-
-        }
-    }
-
-    private ImageIcon[] readInIcons() {
-
-        ImageIcon[] icon = new ImageIcon[9];
-        for (int i = 0; i < 9; i++){
+        for (int i=0; i<pairs; i++){
+            ImageIcon[] icon = new ImageIcon[pairs];
             String imageName = "Files/shoes/"+i+".jpg";
             icon[i] = new ImageIcon(imageName);
+            cardIconList.add(icon[i]);
+            cardIconList.add(icon[i]);
         }
-        return icon;
+
+        Collections.shuffle(cardIconList);
+
+
+        for (Icon icon : cardIconList){
+            CardClass c = new CardClass();
+            c.setIcon(backIcon);
+            c.setIcons(icon);
+
+            //c.setId(val+100);
+            c.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent ae){
+                    selectedCard = c;
+                    doTurn();
+                }
+            });
+            cardsList.add(c);
+        }
+        this.cards = cardsList;
+        //set up the timer
+        t = new Timer(750, new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                checkCards();
+            }
+        });
+
+        t.setRepeats(false);
+
+        //set up the board itself
+        setLayout(new GridLayout(4, 4));
+        for (CardClass c : cards){
+            add(c);
+        }
+
     }
 
+    public void doTurn(){
+        if (c1 == null && c2 == null){
+            c1 = selectedCard;
+            c1.setIcon(c1.getIcons());
+        }
 
+        if (c1 != null && c1 != selectedCard && c2 == null){
+            c2 = selectedCard;
+            c2.setIcon(c2.getIcons());
+
+            t.start();
+
+        }
+    }
+
+    public void checkCards(){
+        if (c1.getIcons() == c2.getIcons()){//match condition
+            c1.setEnabled(false); //disables the button
+            c2.setEnabled(false);
+            c1.setMatched(true); //flags the button as having been matched
+            c2.setMatched(true);
+            if (this.isGameWon()){
+                JOptionPane.showMessageDialog(this, "You win!");
+                System.exit(0);
+            }
+        }
+
+        else{
+            c1.setIcon(backIcon);
+            c2.setIcon(backIcon);
+
+        }
+        c1 = null; //reset c1 and c2
+        c2 = null;
+    }
+
+    public boolean isGameWon(){
+        for(CardClass c: this.cards){
+            if (c.getMatched() == false){
+                return false;
+            }
+        }
+        return true;
+    }
 }
+
+

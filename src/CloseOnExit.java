@@ -14,7 +14,7 @@ public class CloseOnExit implements ActionListener {
 
         if (confirmed == JOptionPane.YES_OPTION) {
             exitFrame.dispose();
-            closeMainFrame = true;
+            System.exit(0);
 
 
         } else

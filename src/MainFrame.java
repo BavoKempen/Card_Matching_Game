@@ -17,6 +17,8 @@ public class MainFrame extends JFrame {
     JPanel mainPanel;
     CardLayout cardLayout;
 
+
+
     /*
     The MainFrame() should be maximum screen according to user's dimensions
     Three Panels needed in Layout:
@@ -86,16 +88,17 @@ public class MainFrame extends JFrame {
                 String playerOneName = settingsPanel.pveOrPvp.playerOne.getText();
                 String playertwoName = settingsPanel.pveOrPvp.playerTwo.getText();
             }
+            actionPanel.startButton.setEnabled(false);
 
 
             // TO DO: Remove settings Panel and add GamePanel
 
         }
+
         gameOn();
 
     }
     public void gameOn(){
-
         cardLayout.show(mainPanel, "gamePanel");
 
     }
