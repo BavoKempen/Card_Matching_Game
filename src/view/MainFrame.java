@@ -1,11 +1,10 @@
-import com.sun.tools.javac.Main;
+package view;
+
+import actions.CloseOnExit;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import static javax.swing.JFrame.*;
 
 public class MainFrame extends JFrame {
 
@@ -20,10 +19,10 @@ public class MainFrame extends JFrame {
 
 
     /*
-    The MainFrame() should be maximum screen according to user's dimensions
+    The view.MainFrame() should be maximum screen according to user's dimensions
     Three Panels needed in Layout:
-    (1) Center: SettingsPanel, GamePanel in mainPanel linked to startButton
-    (2) Bottom: ActionPanel: Start, Stop, Rules
+    (1) Center: view.SettingsPanel, view.GamePanel in mainPanel linked to startButton
+    (2) Bottom: view.ActionPanel: Start, Stop, Rules
     (3) Line_end: RealTimePanel: Respective Players, Top5Highscore, Timer, ...
      */
     public MainFrame(){
@@ -55,7 +54,7 @@ public class MainFrame extends JFrame {
 
 
 
-        //SettingsPanel contains all user selected input
+        //view.SettingsPanel contains all user selected input
 
         //Add all the actionListeners to extract values of settings panel
         actionPanel.startButton.addActionListener(this::actionPerformed);
@@ -69,14 +68,14 @@ public class MainFrame extends JFrame {
 
     }
 
-    //TODO: start button should become unclickable until game is finished
+    //TODO: Pass forward info from view.SettingsPanel to view.GamePanel
 
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == actionPanel.startButton) {
-            int rows = (int) settingsPanel.rowsAndColumns.rowSpinner.getValue();
-            int columns = (int) settingsPanel.rowsAndColumns.columnSpinner.getValue();
-            String theme = settingsPanel.themesSelection.gameTheme;
+            /*gamePanel.rows.setValue(settingsPanel.rowsAndColumns.rowSpinner)
+            gamePanel.columns = (int) settingsPanel.rowsAndColumns.columnSpinner.getValue();
+            gamePanel.theme = settingsPanel.themesSelection.gameTheme;
             int difficulty = settingsPanel.difficultyLevel.difficultyInt;
 
             if (settingsPanel.pveOrPvp.pveButton.isSelected()){
@@ -90,14 +89,17 @@ public class MainFrame extends JFrame {
             }
             actionPanel.startButton.setEnabled(false);
 
+             */
 
-            // TO DO: Remove settings Panel and add GamePanel
+
+            // TO DO: Remove settings Panel and add view.GamePanel
 
         }
 
         gameOn();
 
     }
+
     public void gameOn(){
         cardLayout.show(mainPanel, "gamePanel");
 

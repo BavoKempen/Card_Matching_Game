@@ -1,3 +1,7 @@
+package view;
+
+import game.*;
+
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -10,6 +14,12 @@ import java.util.Collections;
 
 public class GamePanel extends JPanel {
 
+    //Info passed from settingspanel
+    int rows = 4;
+    int columns = 4;
+    String theme;
+
+
     private final ImageIcon backIcon = new ImageIcon("Files/shoes/8.jpg");
     private List<CardClass> cards;
     private CardClass selectedCard;
@@ -19,6 +29,11 @@ public class GamePanel extends JPanel {
 
 
     public GamePanel(){
+
+
+        //test
+        System.out.print(rows);
+        System.out.print(columns);
 
         int pairs = 8;
         List<CardClass> cardsList = new ArrayList<>();
@@ -60,7 +75,7 @@ public class GamePanel extends JPanel {
         t.setRepeats(false);
 
         //set up the board itself
-        setLayout(new GridLayout(4, 4));
+        setLayout(new GridLayout(this.rows,this.columns));
         for (CardClass c : cards){
             add(c);
         }

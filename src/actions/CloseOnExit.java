@@ -1,3 +1,5 @@
+package actions;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,7 +7,7 @@ import java.awt.event.ActionListener;
 public class CloseOnExit implements ActionListener {
     boolean closeMainFrame = false;
     JDialog exitFrame;
-    MainFrame mainFrame;
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         int confirmed = JOptionPane.showConfirmDialog(null,

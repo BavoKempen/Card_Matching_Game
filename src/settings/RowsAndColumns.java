@@ -1,9 +1,14 @@
+package settings;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class RowsAndColumns extends JPanel {
+
+
+
     //spinners
     JSpinner rowSpinner;
     JSpinner columnSpinner;
@@ -14,6 +19,7 @@ public class RowsAndColumns extends JPanel {
     private JLabel gridLabel;
 
     public RowsAndColumns(){
+
         setLayout(new GridBagLayout());
 
         //labels
@@ -23,7 +29,11 @@ public class RowsAndColumns extends JPanel {
 
         //create Spinners with a minimum of 1 and maximum of 10, starting at 4 as default and in/decrement 1
         rowSpinner = new JSpinner(new SpinnerNumberModel(4,1,10,1));
+        ((JSpinner.DefaultEditor) rowSpinner.getEditor()).getTextField().setEditable(false);
+
         columnSpinner = new JSpinner(new SpinnerNumberModel(4,1,10,1));
+        ((JSpinner.DefaultEditor) columnSpinner.getEditor()).getTextField().setEditable(false);
+
 
         //Layout of the panel
         setLayout(new GridBagLayout());
@@ -61,31 +71,15 @@ public class RowsAndColumns extends JPanel {
                 JSpinner rowSpinner = (JSpinner) e2.getSource();
                 int valueRows = (int) rowSpinner.getValue();
 
-                System.out.println("Value is " + valueRows);
 
-                if (valueRows > 10)
-                    rowSpinner.setValue(10);
-                else if (valueRows < 1)
-                    rowSpinner.setValue(1);
-                else
-                    rowSpinner.setValue(valueRows);
             }
+
         });
         columnSpinner.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 JSpinner columnSpinner = (JSpinner) e.getSource();
                 int valueColumns = (int) columnSpinner.getValue();
-
-                System.out.println("Value is " + valueColumns);
-
-                if (valueColumns > 10)
-                    columnSpinner.setValue(10);
-                else if (valueColumns < 1)
-                    columnSpinner.setValue(1);
-                else
-                    columnSpinner.setValue(valueColumns);
-
             }
         });
 

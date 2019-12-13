@@ -1,3 +1,5 @@
+package view;
+
 import javax.swing.*;
 
 public class RunMemoryGame {
@@ -7,7 +9,7 @@ public class RunMemoryGame {
             // event dispatching thread. Thank you YouTube!
 
             public void run() {
-                new MainFrame(); //create new class of MainFrame type defined in respective class where the rest can be added
+                new MainFrame(); //create new class of view.MainFrame type defined in respective class where the rest can be added
 
             }
         });

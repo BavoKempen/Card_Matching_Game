@@ -1,7 +1,12 @@
+package view;
+
+import settings.DifficultyLevel;
+import settings.PveOrPvp;
+import settings.RowsAndColumns;
+import settings.ThemesSelection;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
 
