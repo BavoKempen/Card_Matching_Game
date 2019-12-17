@@ -1,6 +1,7 @@
 package view;
 
 import actions.*;
+import model.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ public class ActionPanel extends JPanel{
     JButton exitButton;
     JButton rulesButton;
 
-    public ActionPanel(){
+    public ActionPanel(Game game){
         startButton = new JButton("Start Game");
         exitButton = new JButton("End Game");
         rulesButton = new JButton("Game Rules");

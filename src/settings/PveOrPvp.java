@@ -1,11 +1,16 @@
 package settings;
 
+import model.Game;
+import model.Settings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PveOrPvp extends JPanel {
+
+    private Game game;
 
     // Computer vs other human
     //Labels
@@ -20,10 +25,12 @@ public class PveOrPvp extends JPanel {
     private ButtonGroup playModeButtonGroup;
 
     //text fields
-    JTextField playerOne;
-    JTextField playerTwo;
+    public JTextField playerOne;
+    public JTextField playerTwo;
 
-    public PveOrPvp(){
+    public PveOrPvp(Game game){
+
+        this.game = game;
         // Computer vs. human with radio buttons
         playModeLabel = new JLabel("Game Mode");
         nameLabel = new JLabel("Player Name");
@@ -87,10 +94,18 @@ public class PveOrPvp extends JPanel {
     private class EnableListener implements ActionListener { //control textfields according to radiobutton pressed (pvp/pve)
         @Override
         public void actionPerformed(ActionEvent actionEvent) { //make playerTwo textfield writable after selecting pvp AND clear it again if pve is reselected
-            if(pvpButton.isSelected())
+            if(pvpButton.isSelected()) {
                 playerTwo.setEnabled(true);
-            else playerTwo.setEnabled(false);
-            playerTwo.setText(""); //Delete second name if switched back to PVE
+                game.getSettings().setComputerOrMultiplayer(false);
+            }
+
+
+
+            else if (pveButton.isSelected()){
+                playerTwo.setEnabled(false);
+                playerTwo.setText(""); //Delete second name if switched back to PVE
+                game.getSettings().setComputerOrMultiplayer(true);
+            }
         }
 
 

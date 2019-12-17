@@ -1,5 +1,8 @@
 package view;
 
+import model.Game;
+import model.Settings;
+
 import javax.swing.*;
 
 public class RunMemoryGame {
@@ -9,7 +12,12 @@ public class RunMemoryGame {
             // event dispatching thread. Thank you YouTube!
 
             public void run() {
-                new MainFrame(); //create new class of view.MainFrame type defined in respective class where the rest can be added
+                /*add default game settings
+
+                 */
+                Settings settings = new Settings();
+                Game game = new Game(settings);
+                new MainFrame(game); //create new class of view.MainFrame type defined in respective class where the rest can be added
 
             }
         });

@@ -1,6 +1,10 @@
 package view;
 
 import actions.CloseOnExit;
+import model.Game;
+import model.Player;
+import model.Settings;
+import settings.PlayerLabels;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +12,10 @@ import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame {
 
+    //all info Back-end
+    Game game;
+
+    //UI
     ActionPanel actionPanel;
     SettingsPanel settingsPanel;
     GamePanel gamePanel;
@@ -15,7 +23,7 @@ public class MainFrame extends JFrame {
 
     JPanel mainPanel;
     CardLayout cardLayout;
-
+    private Object PlayerLabels;
 
 
     /*
@@ -25,18 +33,21 @@ public class MainFrame extends JFrame {
     (2) Bottom: view.ActionPanel: Start, Stop, Rules
     (3) Line_end: RealTimePanel: Respective Players, Top5Highscore, Timer, ...
      */
-    public MainFrame(){
+    public MainFrame(Game game){
         super("Memory Game");
+
+        this.game = game;
 
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        settingsPanel = new SettingsPanel();
-        gamePanel = new GamePanel();
+        settingsPanel = new SettingsPanel(game);
+        gamePanel = new GamePanel(game);
+
         mainPanel.add(settingsPanel, "settingsPanel");
         mainPanel.add(gamePanel, "gamePanel");
 
-        actionPanel = new ActionPanel();
-        communicationPanel = new CommunicationPanel();
+        actionPanel = new ActionPanel(game);
+        communicationPanel = new CommunicationPanel(game);
 
 
         add(mainPanel, BorderLayout.CENTER);
@@ -73,35 +84,59 @@ public class MainFrame extends JFrame {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == actionPanel.startButton) {
-            /*gamePanel.rows.setValue(settingsPanel.rowsAndColumns.rowSpinner)
-            gamePanel.columns = (int) settingsPanel.rowsAndColumns.columnSpinner.getValue();
-            gamePanel.theme = settingsPanel.themesSelection.gameTheme;
-            int difficulty = settingsPanel.difficultyLevel.difficultyInt;
-
-            if (settingsPanel.pveOrPvp.pveButton.isSelected()){
-                String playerOneName = settingsPanel.pveOrPvp.playerOne.getText();
-                String playertwoName = "Computer"; //TO DO: Make this something that people cannot break, e.g., hash string
-
-            }
-            else if (settingsPanel.pveOrPvp.pvpButton.isSelected()){
-                String playerOneName = settingsPanel.pveOrPvp.playerOne.getText();
-                String playertwoName = settingsPanel.pveOrPvp.playerTwo.getText();
-            }
-            actionPanel.startButton.setEnabled(false);
-
-             */
-
-
-            // TO DO: Remove settings Panel and add view.GamePanel
-
+            gameOn();
+            setPlayerNames(game);
         }
 
-        gameOn();
+
+
+
 
     }
 
     public void gameOn(){
+        this.gamePanel.initialize();
         cardLayout.show(mainPanel, "gamePanel");
+
+
+    }
+    public void setPlayerNames(Game game){
+
+
+        System.out.println("c-"+game.getSettings().getPlayers().size());
+
+        //System.out.print(game.getSettings().getPlayers().size());
+        game.getSettings().removePlayers(0);
+        game.getSettings().removePlayers(0);
+        System.out.println(game.getSettings().getComputerOrMultiplayer());
+
+
+        if (game.getSettings().getComputerOrMultiplayer() == false){
+            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
+            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerTwo.getText());
+            communicationPanel.revalidate();
+
+
+
+
+        }
+        else
+            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
+            game.getSettings().addPlayer("Computer");
+
+
+        //this.communicationPanel.playerLabels(game);
+        System.out.println("b-"+game.getSettings().getPlayers().get(0));
+        System.out.println("b-"+game.getSettings().getPlayers().get(1));
+
+        communicationPanel.removeAll();
+        settings.PlayerLabels refreshPlayers = new PlayerLabels(game);
+        communicationPanel.add(refreshPlayers, BorderLayout.NORTH);
+        communicationPanel.validate();
+        communicationPanel.repaint();
+
+
+
 
     }
 }

@@ -1,11 +1,15 @@
 package settings;
 
+import model.Game;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class RowsAndColumns extends JPanel {
+
+    private Game game;
 
 
 
@@ -18,7 +22,9 @@ public class RowsAndColumns extends JPanel {
     private JLabel columnLabel;
     private JLabel gridLabel;
 
-    public RowsAndColumns(){
+    public RowsAndColumns(Game game){
+
+        this.game = game;
 
         setLayout(new GridBagLayout());
 
@@ -69,7 +75,9 @@ public class RowsAndColumns extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e2) {
                 JSpinner rowSpinner = (JSpinner) e2.getSource();
-                int valueRows = (int) rowSpinner.getValue();
+                game.getSettings().setRows((int) rowSpinner.getValue());
+
+
 
 
             }
@@ -79,7 +87,7 @@ public class RowsAndColumns extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 JSpinner columnSpinner = (JSpinner) e.getSource();
-                int valueColumns = (int) columnSpinner.getValue();
+                game.getSettings().setColumns((int) columnSpinner.getValue());
             }
         });
 

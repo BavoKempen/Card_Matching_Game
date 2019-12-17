@@ -1,6 +1,8 @@
 package view;
 
 import game.*;
+import model.Card;
+import model.Game;
 
 import javax.swing.*;
 import javax.swing.JOptionPane;
@@ -8,52 +10,43 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
 
 
 public class GamePanel extends JPanel {
 
     //Info passed from settingspanel
-    int rows = 4;
-    int columns = 4;
-    String theme;
 
+    private Game game;
 
     private final ImageIcon backIcon = new ImageIcon("Files/shoes/8.jpg");
-    private List<CardClass> cards;
-    private CardClass selectedCard;
-    private CardClass c1;
-    private CardClass c2;
+    ArrayList<CardButton> cardsList;
+    private CardButton selectedCard;
+    private CardButton c1;
+    private CardButton c2;
     private Timer t;
 
 
-    public GamePanel(){
+
+    public GamePanel(Game game){
+
+        //reference game info
+        this.game = game;
+
+        //list of button elements that is linked to each card in board (list of cards)
 
 
-        //test
-        System.out.print(rows);
-        System.out.print(columns);
+    }
 
-        int pairs = 8;
-        List<CardClass> cardsList = new ArrayList<>();
-        List<ImageIcon> cardIconList = new ArrayList<>();
+    public void initialize() {
+        cardsList = new ArrayList<>();
 
-        for (int i=0; i<pairs; i++){
-            ImageIcon[] icon = new ImageIcon[pairs];
-            String imageName = "Files/shoes/"+i+".jpg";
-            icon[i] = new ImageIcon(imageName);
-            cardIconList.add(icon[i]);
-            cardIconList.add(icon[i]);
-        }
+        this.game.initialize();
+        System.out.println("test-"+this.game.getBoard().size());
 
-        Collections.shuffle(cardIconList);
-
-
-        for (Icon icon : cardIconList){
-            CardClass c = new CardClass();
+        for (Card card : this.game.getBoard()){
+            CardButton c = new CardButton(card);
             c.setIcon(backIcon);
-            c.setIcons(icon);
 
             //c.setId(val+100);
             c.addActionListener(new ActionListener(){
@@ -62,9 +55,10 @@ public class GamePanel extends JPanel {
                     doTurn();
                 }
             });
+            System.out.println("CL-" + cardsList.size());
             cardsList.add(c);
         }
-        this.cards = cardsList;
+        Collections.shuffle(cardsList);
         //set up the timer
         t = new Timer(750, new ActionListener(){
             public void actionPerformed(ActionEvent ae){
@@ -75,22 +69,23 @@ public class GamePanel extends JPanel {
         t.setRepeats(false);
 
         //set up the board itself
-        setLayout(new GridLayout(this.rows,this.columns));
-        for (CardClass c : cards){
+        System.out.println(this.game.getSettings().getRows() + " " +this.game.getSettings().getColumns());
+        setLayout(new GridLayout(this.game.getSettings().getRows(),this.game.getSettings().getColumns()));
+        System.out.println(cardsList.size());
+        for (CardButton c : cardsList){
             add(c);
         }
-
     }
 
     public void doTurn(){
         if (c1 == null && c2 == null){
             c1 = selectedCard;
-            c1.setIcon(c1.getIcons());
+            c1.setIcon(c1.getVisibleIcon());
         }
 
         if (c1 != null && c1 != selectedCard && c2 == null){
             c2 = selectedCard;
-            c2.setIcon(c2.getIcons());
+            c2.setIcon(c2.getVisibleIcon());
 
             t.start();
 
@@ -98,7 +93,7 @@ public class GamePanel extends JPanel {
     }
 
     public void checkCards(){
-        if (c1.getIcons() == c2.getIcons()){//match condition
+        if (c1.getVisibleIcon() == c2.getVisibleIcon()){//match condition
             c1.setEnabled(false); //disables the button
             c2.setEnabled(false);
             c1.setMatched(true); //flags the button as having been matched
@@ -119,7 +114,7 @@ public class GamePanel extends JPanel {
     }
 
     public boolean isGameWon(){
-        for(CardClass c: this.cards){
+        for(CardButton c: this.cardsList){
             if (c.getMatched() == false){
                 return false;
             }

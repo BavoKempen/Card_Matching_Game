@@ -1,11 +1,15 @@
 package settings;
 
+import model.Game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ThemesSelection extends JPanel {
+
+    private Game game;
 
 
     //Label
@@ -19,7 +23,9 @@ public class ThemesSelection extends JPanel {
     String gameTheme = "shoes";
 
 
-    public ThemesSelection(){
+    public ThemesSelection(Game game){
+
+        this.game = game;
 
         //Label assign text
         themesLabel = new JLabel("Theme:");
@@ -76,12 +82,11 @@ public class ThemesSelection extends JPanel {
 
 
             if (shoesButton.isSelected())
-                gameTheme = "shoes";
+                game.getSettings().setTheme("shoes");
             else if (mathsButton.isSelected())
-                gameTheme = "mathematics";
+                game.getSettings().setTheme("mathematics");
             else if (worldLeadersButton.isSelected())
-                gameTheme = "worldleaders";
-
+                game.getSettings().setTheme("worldleaders");
 
 
 
