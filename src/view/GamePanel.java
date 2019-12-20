@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,7 +20,7 @@ public class GamePanel extends JPanel {
 
     private Game game;
 
-    private final ImageIcon backIcon = new ImageIcon("Files/shoes/8.jpg");
+    private ImageIcon backIcon = new ImageIcon("Files/backIcon/backIcon.jpg");
     ArrayList<CardButton> cardsList;
     private CardButton selectedCard;
     private CardButton c1;
@@ -28,7 +29,11 @@ public class GamePanel extends JPanel {
 
 
 
+
+
     public GamePanel(Game game){
+
+
 
         //reference game info
         this.game = game;
@@ -39,23 +44,29 @@ public class GamePanel extends JPanel {
     }
 
     public void initialize() {
+
         cardsList = new ArrayList<>();
 
         this.game.initialize();
+
+
         System.out.println("test-"+this.game.getBoard().size());
 
         for (Card card : this.game.getBoard()){
             CardButton c = new CardButton(card);
-            c.setIcon(backIcon);
+            ImageIcon newIcon = reSizeIcon(c, backIcon);
+            c.setIcon(newIcon);
 
             //c.setId(val+100);
             c.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent ae){
                     selectedCard = c;
                     doTurn();
+
+
                 }
+
             });
-            System.out.println("CL-" + cardsList.size());
             cardsList.add(c);
         }
         Collections.shuffle(cardsList);
@@ -64,18 +75,19 @@ public class GamePanel extends JPanel {
             public void actionPerformed(ActionEvent ae){
                 checkCards();
             }
+
         });
 
         t.setRepeats(false);
 
         //set up the board itself
-        System.out.println(this.game.getSettings().getRows() + " " +this.game.getSettings().getColumns());
         setLayout(new GridLayout(this.game.getSettings().getRows(),this.game.getSettings().getColumns()));
-        System.out.println(cardsList.size());
         for (CardButton c : cardsList){
             add(c);
         }
+
     }
+
 
     public void doTurn(){
         if (c1 == null && c2 == null){
@@ -89,6 +101,7 @@ public class GamePanel extends JPanel {
 
             t.start();
 
+
         }
     }
 
@@ -98,11 +111,15 @@ public class GamePanel extends JPanel {
             c2.setEnabled(false);
             c1.setMatched(true); //flags the button as having been matched
             c2.setMatched(true);
+            game.getSettings().setPoint(true); //pass that point has been made
             if (this.isGameWon()){
                 JOptionPane.showMessageDialog(this, "You win!");
                 System.exit(0);
             }
+
+
         }
+
 
         else{
             c1.setIcon(backIcon);
@@ -111,6 +128,16 @@ public class GamePanel extends JPanel {
         }
         c1 = null; //reset c1 and c2
         c2 = null;
+        System.out.println(game.getSettings().getChecked());
+        game.getSettings().setCardChecked(true);
+        System.out.println(game.getSettings().getChecked());
+
+
+
+
+
+
+
     }
 
     public boolean isGameWon(){
@@ -120,6 +147,23 @@ public class GamePanel extends JPanel {
             }
         }
         return true;
+    }
+
+    public ImageIcon reSizeIcon(CardButton c, ImageIcon icon){
+        
+        // get width and height of Jbuttons
+        int buttonWidth = (int) c.getPreferredSize().getWidth();
+        int buttonHeight = (int) c.getPreferredSize().getHeight();
+
+        // set sized accordingly
+        Image img = icon.getImage();
+        BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        g.drawImage(img, 0, 0, buttonWidth, buttonHeight, null);
+        ImageIcon newIcon = new ImageIcon(bi);
+
+        return newIcon;
+
     }
 }
 

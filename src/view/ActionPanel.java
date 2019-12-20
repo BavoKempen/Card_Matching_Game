@@ -13,6 +13,8 @@ public class ActionPanel extends JPanel{
     JButton exitButton;
     JButton rulesButton;
 
+    private PlayerLabels playerLabels;
+
     public ActionPanel(Game game){
         startButton = new JButton("Start Game");
         exitButton = new JButton("End Game");
@@ -30,9 +32,11 @@ public class ActionPanel extends JPanel{
 
 
 
-    }
-
-
 
     }
+
+
+
+
+}
 

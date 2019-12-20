@@ -4,7 +4,7 @@ import actions.CloseOnExit;
 import model.Game;
 import model.Player;
 import model.Settings;
-import settings.PlayerLabels;
+import settings.PveOrPvp;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +21,15 @@ public class MainFrame extends JFrame {
     GamePanel gamePanel;
     CommunicationPanel communicationPanel;
 
+
     JPanel mainPanel;
     CardLayout cardLayout;
-    private Object PlayerLabels;
+
+    //Dynamic
+    private PlayerLabels playerLabels;
+    Player player;
+    Settings settings;
+
 
 
     /*
@@ -49,13 +55,19 @@ public class MainFrame extends JFrame {
         actionPanel = new ActionPanel(game);
         communicationPanel = new CommunicationPanel(game);
 
+        communicationPanel.setPreferredSize(new Dimension(200,500));
+        //actionPanel.setPreferredSize(new Dimension(700,100) );
+        mainPanel.setPreferredSize(new Dimension(650, 400));
+
+
+
 
         add(mainPanel, BorderLayout.CENTER);
         add(actionPanel, BorderLayout.PAGE_END);
         add(communicationPanel, BorderLayout.LINE_END);
         //Global GUI settings and user specific full screen resolution display
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800,500);
+        setSize(900,500);
         pack();
         setLocationByPlatform(true);
 
@@ -79,17 +91,21 @@ public class MainFrame extends JFrame {
 
     }
 
-    //TODO: Pass forward info from view.SettingsPanel to view.GamePanel
+
+
 
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == actionPanel.startButton) {
             gameOn();
-            setPlayerNames(game);
+            //setPlayerName();
+            actionPanel.startButton.setEnabled(false);
+
+
+            //playerLabels.setPlayerText(settingsPanel.pveOrPvp.playerOne.getText(), settingsPanel.pveOrPvp.playerTwo.getText());
+            // playerLabels.playerOneLabel.setText("derp");
+
         }
-
-
-
 
 
     }
@@ -97,48 +113,19 @@ public class MainFrame extends JFrame {
     public void gameOn(){
         this.gamePanel.initialize();
         cardLayout.show(mainPanel, "gamePanel");
+    }
 
+    public void setPlayerName(){
+
+        game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
+        game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerTwo.getText());
+        System.out.println(game.getSettings().getPlayers().get(0));
+//        playerLabels.setPlayerText(String.valueOf(game.getSettings().getPlayers().get(0)), String.valueOf(game.getSettings().getPlayers().get(1)));
 
     }
-    public void setPlayerNames(Game game){
-
-
-        System.out.println("c-"+game.getSettings().getPlayers().size());
-
-        //System.out.print(game.getSettings().getPlayers().size());
-        game.getSettings().removePlayers(0);
-        game.getSettings().removePlayers(0);
-        System.out.println(game.getSettings().getComputerOrMultiplayer());
-
-
-        if (game.getSettings().getComputerOrMultiplayer() == false){
-            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
-            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerTwo.getText());
-            communicationPanel.revalidate();
 
 
 
-
-        }
-        else
-            game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
-            game.getSettings().addPlayer("Computer");
-
-
-        //this.communicationPanel.playerLabels(game);
-        System.out.println("b-"+game.getSettings().getPlayers().get(0));
-        System.out.println("b-"+game.getSettings().getPlayers().get(1));
-
-        communicationPanel.removeAll();
-        settings.PlayerLabels refreshPlayers = new PlayerLabels(game);
-        communicationPanel.add(refreshPlayers, BorderLayout.NORTH);
-        communicationPanel.validate();
-        communicationPanel.repaint();
-
-
-
-
-    }
 }
 
 

@@ -2,8 +2,11 @@ package settings;
 
 import model.Game;
 import model.Settings;
+import view.PlayerLabels;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +30,9 @@ public class PveOrPvp extends JPanel {
     //text fields
     public JTextField playerOne;
     public JTextField playerTwo;
+
+    private PlayerLabels playerLabels;
+
 
     public PveOrPvp(Game game){
 
@@ -85,18 +91,23 @@ public class PveOrPvp extends JPanel {
         pveButton.addActionListener(new EnableListener());
         pvpButton.addActionListener(new EnableListener());
 
-        //TEXT field recordings will be included in "START" button I think
+        //TEXT field
 
         //default on PVE, so deselect the playertwo text field a priori
         playerTwo.setEnabled(false);
     }
+
+    public void setPlayerLabelName(PlayerLabels playerLabels){
+        this.playerLabels = playerLabels;
+    }
+
 
     private class EnableListener implements ActionListener { //control textfields according to radiobutton pressed (pvp/pve)
         @Override
         public void actionPerformed(ActionEvent actionEvent) { //make playerTwo textfield writable after selecting pvp AND clear it again if pve is reselected
             if(pvpButton.isSelected()) {
                 playerTwo.setEnabled(true);
-                game.getSettings().setComputerOrMultiplayer(false);
+                game.getSettings().setSinglePlayer(false);
             }
 
 
@@ -104,7 +115,7 @@ public class PveOrPvp extends JPanel {
             else if (pveButton.isSelected()){
                 playerTwo.setEnabled(false);
                 playerTwo.setText(""); //Delete second name if switched back to PVE
-                game.getSettings().setComputerOrMultiplayer(true);
+                game.getSettings().setSinglePlayer(true);
             }
         }
 

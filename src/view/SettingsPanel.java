@@ -29,6 +29,8 @@ public class SettingsPanel extends JPanel {
         difficultyLevel = new DifficultyLevel(game);
         themesSelection = new ThemesSelection(game);
 
+
+
         add(pveOrPvp);
         add(rowsAndColumns);
         add(difficultyLevel);
@@ -39,7 +41,7 @@ public class SettingsPanel extends JPanel {
     }
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500, 400);
+        return new Dimension(650, 400);
     }
 
 
