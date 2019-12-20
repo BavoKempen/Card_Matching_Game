@@ -1,6 +1,7 @@
 package settings;
 
 import model.Game;
+import model.Player;
 import model.Settings;
 import view.PlayerLabels;
 
@@ -51,6 +52,8 @@ public class PveOrPvp extends JPanel {
         playerOne = new JTextField(20);
         playerTwo = new JTextField(20);
 
+
+
         //join buttons in button group so that only one can be selected at any given time
         playModeButtonGroup.add(pveButton);
         playModeButtonGroup.add(pvpButton);
@@ -97,8 +100,17 @@ public class PveOrPvp extends JPanel {
         playerTwo.setEnabled(false);
     }
 
-    public void setPlayerLabelName(PlayerLabels playerLabels){
-        this.playerLabels = playerLabels;
+    public void saveSettings(){
+        String nameOne = playerOne.getText();
+        String nameTwo = playerTwo.getText();
+
+        if (nameOne.length() !=0 ){
+            game.getSettings().getPlayers().get(0).setName(nameOne);
+        }
+
+        if(nameTwo.length() !=0 ){
+            game.getSettings().getPlayers().get(1).setName(nameTwo);
+        }
     }
 
 

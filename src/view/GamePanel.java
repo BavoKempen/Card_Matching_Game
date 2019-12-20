@@ -3,6 +3,7 @@ package view;
 import game.*;
 import model.Card;
 import model.Game;
+import model.Player;
 
 import javax.swing.*;
 import javax.swing.JOptionPane;
@@ -27,16 +28,21 @@ public class GamePanel extends JPanel {
     private CardButton c2;
     private Timer t;
 
+    private CommunicationPanel communicationPanel;
+
+    Player currentPlayer;
 
 
 
 
-    public GamePanel(Game game){
+
+    public GamePanel(Game game, CommunicationPanel communicationPanel){
 
 
 
         //reference game info
         this.game = game;
+        this.communicationPanel = communicationPanel;
 
         //list of button elements that is linked to each card in board (list of cards)
 
@@ -45,6 +51,7 @@ public class GamePanel extends JPanel {
 
     public void initialize() {
 
+        currentPlayer = game.getSettings().getPlayers().get(0);
         cardsList = new ArrayList<>();
 
         this.game.initialize();
@@ -111,7 +118,7 @@ public class GamePanel extends JPanel {
             c2.setEnabled(false);
             c1.setMatched(true); //flags the button as having been matched
             c2.setMatched(true);
-            game.getSettings().setPoint(true); //pass that point has been made
+            game.getSettings().setPoint(currentPlayer); //pass that point has been made
             if (this.isGameWon()){
                 JOptionPane.showMessageDialog(this, "You win!");
                 System.exit(0);
@@ -128,16 +135,8 @@ public class GamePanel extends JPanel {
         }
         c1 = null; //reset c1 and c2
         c2 = null;
-        System.out.println(game.getSettings().getChecked());
-        game.getSettings().setCardChecked(true);
-        System.out.println(game.getSettings().getChecked());
 
-
-
-
-
-
-
+        this.nextPlayer();
     }
 
     public boolean isGameWon(){
@@ -165,6 +164,17 @@ public class GamePanel extends JPanel {
         return newIcon;
 
     }
+
+    private void nextPlayer() {
+        if (currentPlayer == game.getSettings().getPlayers().get(0)) {
+            currentPlayer = game.getSettings().getPlayers().get(1);
+        } else {
+            currentPlayer = game.getSettings().getPlayers().get(0);
+        }
+
+        this.communicationPanel.playerLabels.setActivePlayer(currentPlayer);
+        this.communicationPanel.initialize();
+    };
 }
 
 

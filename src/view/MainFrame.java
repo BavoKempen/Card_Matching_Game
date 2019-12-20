@@ -47,13 +47,14 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         settingsPanel = new SettingsPanel(game);
-        gamePanel = new GamePanel(game);
+        actionPanel = new ActionPanel(game);
+        communicationPanel = new CommunicationPanel(game);
+        gamePanel = new GamePanel(game , communicationPanel);
 
         mainPanel.add(settingsPanel, "settingsPanel");
         mainPanel.add(gamePanel, "gamePanel");
 
-        actionPanel = new ActionPanel(game);
-        communicationPanel = new CommunicationPanel(game);
+
 
         communicationPanel.setPreferredSize(new Dimension(200,500));
         //actionPanel.setPreferredSize(new Dimension(700,100) );
@@ -111,20 +112,11 @@ public class MainFrame extends JFrame {
     }
 
     public void gameOn(){
+        this.settingsPanel.pveOrPvp.saveSettings();
         this.gamePanel.initialize();
+        this.communicationPanel.initialize();
         cardLayout.show(mainPanel, "gamePanel");
     }
-
-    public void setPlayerName(){
-
-        game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerOne.getText());
-        game.getSettings().addPlayer(settingsPanel.pveOrPvp.playerTwo.getText());
-        System.out.println(game.getSettings().getPlayers().get(0));
-//        playerLabels.setPlayerText(String.valueOf(game.getSettings().getPlayers().get(0)), String.valueOf(game.getSettings().getPlayers().get(1)));
-
-    }
-
-
 
 }
 
