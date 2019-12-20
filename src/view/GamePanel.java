@@ -11,6 +11,10 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -31,9 +35,6 @@ public class GamePanel extends JPanel {
     private CommunicationPanel communicationPanel;
 
     Player currentPlayer;
-
-
-
 
 
     public GamePanel(Game game, CommunicationPanel communicationPanel){
@@ -121,6 +122,9 @@ public class GamePanel extends JPanel {
             game.getSettings().setPoint(currentPlayer); //pass that point has been made
             if (this.isGameWon()){
                 JOptionPane.showMessageDialog(this, "You win!");
+
+                //save highscores
+                this.saveHighScores();
                 System.exit(0);
             }
 
@@ -165,7 +169,7 @@ public class GamePanel extends JPanel {
 
     }
 
-    private void nextPlayer() {
+    public void nextPlayer() {
         if (currentPlayer == game.getSettings().getPlayers().get(0)) {
             currentPlayer = game.getSettings().getPlayers().get(1);
         } else {
@@ -174,7 +178,20 @@ public class GamePanel extends JPanel {
 
         this.communicationPanel.playerLabels.setActivePlayer(currentPlayer);
         this.communicationPanel.initialize();
-    };
+    }
+
+    public void saveHighScores() {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("Files/highScores/highScores.txt"))) {
+            for (Player p : game.getKnownPlayers()) {
+                String temp = "";
+                temp += p.getName() + "-" + p.getScore() + ";";
+                writer.write(temp);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 

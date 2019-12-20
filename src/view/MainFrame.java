@@ -49,10 +49,8 @@ public class MainFrame extends JFrame {
         settingsPanel = new SettingsPanel(game);
         actionPanel = new ActionPanel(game);
         communicationPanel = new CommunicationPanel(game);
-        gamePanel = new GamePanel(game , communicationPanel);
 
         mainPanel.add(settingsPanel, "settingsPanel");
-        mainPanel.add(gamePanel, "gamePanel");
 
 
 
@@ -113,6 +111,15 @@ public class MainFrame extends JFrame {
 
     public void gameOn(){
         this.settingsPanel.pveOrPvp.saveSettings();
+
+        if (game.getSettings().getSinglePlayer()) {
+            gamePanel = new pveGamePanel(game, communicationPanel);
+        } else {
+            gamePanel = new GamePanel(game , communicationPanel);
+        }
+
+        mainPanel.add(gamePanel, "gamePanel");
+
         this.gamePanel.initialize();
         this.communicationPanel.initialize();
         cardLayout.show(mainPanel, "gamePanel");
