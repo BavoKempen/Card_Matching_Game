@@ -25,6 +25,8 @@ public class GamePanel extends JPanel {
 
     private Game game;
 
+    private int nameWinner;
+
     private ImageIcon backIcon = new ImageIcon("Files/backIcon/backIcon.jpg");
     ArrayList<CardButton> cardsList;
     private CardButton selectedCard;
@@ -75,6 +77,7 @@ public class GamePanel extends JPanel {
                 }
 
             });
+            // fill cardList
             cardsList.add(c);
         }
         Collections.shuffle(cardsList);
@@ -121,8 +124,8 @@ public class GamePanel extends JPanel {
             c2.setMatched(true);
             game.getSettings().setPoint(currentPlayer); //pass that point has been made
             if (this.isGameWon()){
-                JOptionPane.showMessageDialog(this, "You win!");
-
+                this.setWinner();
+                JOptionPane.showMessageDialog(this, game.getSettings().getPlayers().get(game.getSettings().getIntWinner()).getName() + "You win!");
                 //save highscores
                 this.saveHighScores();
                 System.exit(0);
@@ -190,6 +193,21 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void setWinner(){
+        if (game.getSettings().getPlayers().get(0).getScore() > game.getSettings().getPlayers().get(1).getScore()){
+            game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
+            game.getSettings().setIntWinner(0);
+        }
+        else if(game.getSettings().getPlayers().get(0).getScore() < game.getSettings().getPlayers().get(1).getScore()){
+            game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
+            game.getSettings().setIntWinner(1);
+        }
+        else {
+            game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
+            game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
+        }
+
     }
 
 }

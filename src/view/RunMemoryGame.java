@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class RunMemoryGame {
     public static void main (String[] args){
@@ -66,9 +68,6 @@ public class RunMemoryGame {
                 score = Integer.parseInt(temp);
                 temp = "";
 
-                System.out.println(name);
-                System.out.println(score);
-
                 Player player = new Player(name);
                 player.setScore(score);
                 players.add(player);
@@ -80,6 +79,7 @@ public class RunMemoryGame {
         }
 
         // Sort if you want
+        players.sort(Comparator.comparing(Player::getScore).reversed());
 
         return players;
     }
