@@ -4,13 +4,17 @@ import game.CardButton;
 import model.Card;
 import model.Game;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class pveGamePanel extends GamePanel {
     private Game game;
     private CommunicationPanel communicationPanel;
-    private Random randomNumber;
+    private Random randomNumber = new Random();
+
+    private ArrayList<Integer> cardSelectList = new ArrayList<Integer>();
+
     private ArrayList<CardButton> temporaryCardList;
 
     private CardButton selectedCard;
@@ -20,6 +24,7 @@ public class pveGamePanel extends GamePanel {
 
         this.game = game;
         this.communicationPanel = communicationPanel;
+        temporaryCardList = new ArrayList<CardButton>();
     }
 
     @Override
@@ -43,16 +48,37 @@ public class pveGamePanel extends GamePanel {
 
     public void playAITurn() {
         System.out.println("pve Game");
-        /*if (CardButton(Card))
-        for (CardButton c : this.cardsList){
-            if (c.getMatched() == false){
-                int index = randomGenerator.nextInt(catalogue.size());
-            }
-        }
+        cardSelectList = new ArrayList<Integer>();
 
-         */
-        this.cardsList.get(3).doClick();
-        this.cardsList.get(1).doClick();
+
+        while (cardSelectList.size() < 2){
+
+            int index = randomNumber.nextInt(cardsList.size());
+            int index2 = randomNumber.nextInt(cardsList.size());
+            if (this.cardsList.get(index).getMatched()==false && this.cardsList.get(index2).getMatched() == false && index != index2){
+                cardSelectList.add(index);
+                cardSelectList.add(index2);
+            }
+
+        }
+        System.out.println("the list "+cardSelectList);
+        this.cardsList.get(cardSelectList.get(0)).doClick();
+        this.cardsList.get(cardSelectList.get(1)).doClick();
+        this.cardSelectList.removeAll(cardSelectList);
+        System.out.println("removed list "+ cardSelectList);
+
+
+
+
+
+
+        System.out.println("numbers: " + cardSelectList);
+        cardSelectList.add(5);
+        System.out.println("numbers: " + cardSelectList.size());
+
+
+        //this.cardsList.get(3).doClick();
+        //this.cardsList.get(1).doClick();
 
         //Implement AI Logic
 
