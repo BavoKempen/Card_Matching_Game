@@ -155,5 +155,12 @@ public class Settings {
         return this.width*.25;
     }
 
+    public double getIconWidth(){
+        return this.getActionAndMainPanelWidth()/columns;
+    }
+    public double getIconHeight(){
+        return this.getMainPanelHeight()/rows;
+    }
+
 
 }

@@ -5,6 +5,7 @@ import model.Card;
 import model.Game;
 import model.Player;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,9 +26,18 @@ public class GamePanel extends JPanel {
 
     private Game game;
 
-    private int nameWinner;
+    private Image img;
 
-    private ImageIcon backIcon = new ImageIcon("Files/backIcon/backIcon.jpg");
+    {
+        try {
+            img = ImageIO.read(new File("Files/backIcon/backIcon.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private ImageIcon backIcon = new ImageIcon(img);
+
+    //private ImageIcon backIcon = new ImageIcon("Files/backIcon/backIcon.jpg");
     ArrayList<CardButton> cardsList;
     private CardButton selectedCard;
     private CardButton c1;
@@ -39,13 +50,15 @@ public class GamePanel extends JPanel {
     Player currentPlayer;
 
 
-    public GamePanel(Game game, CommunicationPanel communicationPanel){
+
+    public GamePanel(Game game, CommunicationPanel communicationPanel) {
 
 
 
         //reference game info
         this.game = game;
         this.communicationPanel = communicationPanel;
+
 
 
         //list of button elements that is linked to each card in board (list of cards)
@@ -67,8 +80,9 @@ public class GamePanel extends JPanel {
 
         for (Card card : this.game.getBoard()){
             CardButton c = new CardButton(card);
-            ImageIcon newIcon = reSizeIcon(c, backIcon);
-            c.setIcon(newIcon);
+            //Image resizedImage = img.getScaledInstance((int) Math.round(game.getSettings().getIconWidth()), (int) Math.round(game.getSettings().getIconHeight()), Image.SCALE_SMOOTH);
+            //ImageIcon newIcon = reSizeIcon(c, backIcon);
+            c.setIcon(resizeImageIcon(backIcon));
 
 
             //c.setId(val+100);
@@ -108,12 +122,12 @@ public class GamePanel extends JPanel {
     public void doTurn(){
         if (c1 == null && c2 == null){
             c1 = selectedCard;
-            c1.setIcon(c1.getVisibleIcon());
+            c1.setIcon(resizeImageIcon((ImageIcon) c1.getVisibleIcon()));
         }
 
         if (c1 != null && c1 != selectedCard && c2 == null){
             c2 = selectedCard;
-            c2.setIcon(c2.getVisibleIcon());
+            c2.setIcon(resizeImageIcon((ImageIcon) c2.getVisibleIcon()));
 
             t.start();
 
@@ -155,8 +169,8 @@ public class GamePanel extends JPanel {
             if (c1.getVisibleIcon().toString().equals(bomb) || c2.getVisibleIcon().toString().equals(bomb)){
                 game.getSettings().takeBombPoint(currentPlayer);
             }
-            c1.setIcon(backIcon);
-            c2.setIcon(backIcon);
+            c1.setIcon(resizeImageIcon(backIcon));
+            c2.setIcon(resizeImageIcon(backIcon));
 
         }
         c1 = null; //reset c1 and c2
@@ -176,20 +190,18 @@ public class GamePanel extends JPanel {
         return true;
     }
 
-    public ImageIcon reSizeIcon(CardButton c, ImageIcon icon){
-        
+    public ImageIcon resizeImageIcon(ImageIcon imageIcon){
+
+        Image image = imageIcon.getImage();
         // get width and height of Jbuttons
-        int buttonWidth = (int) c.getPreferredSize().getWidth();
-        int buttonHeight = (int) c.getPreferredSize().getHeight();
+        int buttonWidth = (int) Math.round(game.getSettings().getIconWidth());
+        int buttonHeight = (int) Math.round(game.getSettings().getIconHeight());
 
         // set sized accordingly
-        Image img = icon.getImage();
-        BufferedImage bi = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bi.createGraphics();
-        g.drawImage(img, 0, 0, buttonWidth, buttonHeight, null);
-        ImageIcon newIcon = new ImageIcon(bi);
+        Image resizedImage = image.getScaledInstance(buttonWidth, buttonHeight, Image.SCALE_SMOOTH);
+        ImageIcon resizedImageIcon = new ImageIcon(resizedImage);
 
-        return newIcon;
+        return resizedImageIcon;
 
     }
 
