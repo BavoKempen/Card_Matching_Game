@@ -16,15 +16,17 @@ public class CommunicationPanel extends JPanel {
         this.game = game;
 
         playerLabels = new PlayerLabels(game);
-        playerLabels.setPreferredSize(new Dimension(200,200));
+        System.out.println(game.getSettings().getCommunicationPanelWidth());
+        playerLabels.setPreferredSize(new Dimension((int) Math.round(game.getSettings().getCommunicationPanelWidth()*.9),(int) Math.round(game.getSettings().getMainPanelHeight()*.4)));
 
         highScoresPanel = new HighScoresPanel(game);
-        highScoresPanel.setPreferredSize(new Dimension(200, 250));
+        highScoresPanel.setPreferredSize(new Dimension((int) Math.round(game.getSettings().getCommunicationPanelWidth()*.9), (int) Math.round(game.getSettings().getMainPanelHeight()*.45)));
 
         add(playerLabels, BorderLayout.NORTH);
-        add(highScoresPanel, BorderLayout.SOUTH);
+        add(highScoresPanel, BorderLayout.LINE_END);
+        setBackground(Color.RED);
 
-        setPreferredSize(new Dimension(200,500));
+
     }
 
     public void initialize(){

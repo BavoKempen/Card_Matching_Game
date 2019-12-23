@@ -32,18 +32,15 @@ public class ThemesSelection extends JPanel {
 
         //Buttons
         shoesButton = new JRadioButton("Shoes");
-        mathsButton = new JRadioButton("Mathematics");
         worldLeadersButton = new JRadioButton("World Leaders");
         themesButtonGroup = new ButtonGroup();
 
         //join buttons
         themesButtonGroup.add(shoesButton);
-        themesButtonGroup.add(mathsButton);
         themesButtonGroup.add(worldLeadersButton);
 
         //Action Listeners
         shoesButton.addActionListener(new ThemeListener());
-        mathsButton.addActionListener(new ThemeListener());
         worldLeadersButton.addActionListener(new ThemeListener());
 
         //Layout of the panel
@@ -60,12 +57,8 @@ public class ThemesSelection extends JPanel {
         c.gridy = 1;
         add(shoesButton, c);
 
-        c.gridy = 2;
-        add(mathsButton, c);
-
-
         //text fields for names of player one and possibly player two
-        c.gridy = 3;
+        c.gridy = 2;
         add(worldLeadersButton,c);
         c.anchor=GridBagConstraints.NORTHWEST;
 
@@ -83,12 +76,9 @@ public class ThemesSelection extends JPanel {
 
             if (shoesButton.isSelected())
                 game.getSettings().setTheme("shoes");
-            else if (mathsButton.isSelected())
-                game.getSettings().setTheme("mathematics");
+
             else if (worldLeadersButton.isSelected())
                 game.getSettings().setTheme("worldleaders");
-
-
 
         }
     }

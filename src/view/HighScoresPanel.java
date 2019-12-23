@@ -48,14 +48,13 @@ public class HighScoresPanel extends JPanel {
         highScoresPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         highScoresPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        highScoresLabel.setPreferredSize(new Dimension(180,50));
-        highScoresLabel.setFont(new Font("Serif", Font.BOLD,30));
+        highScoresLabel.setFont(new Font("Serif", Font.BOLD,35));
 
-
-        highScoresPane.setPreferredSize(new Dimension(180, 180));
+        highScoresLabel.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.95), (int) Math.round((game.getSettings().getMainPanelHeight()*.45)*.20)));
+        highScoresPane.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.95), (int) Math.round((game.getSettings().getMainPanelHeight()*.45)*.75)));
 
         add(highScoresLabel, BorderLayout.NORTH);
-        add(highScoresPane, BorderLayout.CENTER);
+        add(highScoresPane, BorderLayout.SOUTH);
 
 
 

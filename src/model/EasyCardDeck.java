@@ -9,10 +9,12 @@ public class EasyCardDeck implements CardDeck {
     private ArrayList<Card> cards;
 
     public EasyCardDeck(String themeLocation){
-        this.cards = new ArrayList<Card>();
 
+        this.cards = new ArrayList<Card>();
         this.themeLocation = themeLocation;
+
         String defaultMap = "Files/";
+
         int pairs = 8;
         /*
         while loop? to load in all images from map

@@ -19,6 +19,9 @@ public class Settings {
     private int counter;
     private boolean checked;
     private int number;
+    private double height;
+    private double width;
+
 
     public Settings(){
         this.setRows(4);
@@ -108,8 +111,13 @@ public class Settings {
         return this.number;
     }
 
+    public void takeBombPoint(Player p){
+        p.setScore(0);
+    }
 
-
+    public void setBombExtraPoint(Player p){
+        p.setScore(p.getScore()+3);
+    }
     public void setPoint(Player p){
         p.setScore(p.getScore()+1);
         System.out.println(p.getName() + " your score is " + p.getScore());
@@ -118,6 +126,34 @@ public class Settings {
 
     public void setCardChecked(boolean checked){this.checked = checked;}
     public boolean getChecked(){return this.checked;}
+
+    public void setWindowHeight(double height){
+        this.height = height;
+    }
+    public double getWindowHeight(){
+        return this.height;
+    }
+
+    public void setWindowWidth(double width){
+        this.width = width;
+    }
+    public double getWindowWidth(){
+        return this.width;
+    }
+    public double getActionPanelHeight(){
+        return this.height*.1;
+    }
+
+    public double getMainPanelHeight(){
+        return this.height*.9;
+    }
+
+    public double getActionAndMainPanelWidth(){
+        return this.width*.75;
+    }
+    public double getCommunicationPanelWidth(){
+        return this.width*.25;
+    }
 
 
 }

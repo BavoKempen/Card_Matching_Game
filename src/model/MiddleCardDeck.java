@@ -14,9 +14,9 @@ public class MiddleCardDeck implements CardDeck {
         this.themeLocation = themeLocation;
         String defaultMap = "Files/";
         int pairs = 8;
-        /*
-        while loop? to load in all images from map
-         */
+        String bombName = defaultMap+"bomb/"+themeLocation+"_bomb.jpg";
+        ImageIcon bombIcon = new ImageIcon(bombName);
+        cards.add(new Card(bombIcon));
         for (int i=0; i<pairs; i++){
             ImageIcon[] icon = new ImageIcon[pairs];
             String imageName = defaultMap+themeLocation+"/"+i+".jpg";
@@ -27,9 +27,7 @@ public class MiddleCardDeck implements CardDeck {
             add trap cards underneath
              */
         }
-        String bombName = defaultMap+"bomb/"+themeLocation+"_bomb.jpg";
-        ImageIcon bombIcon = new ImageIcon(bombName);
-        cards.add(new Card(bombIcon));
+
     }
 
     @Override

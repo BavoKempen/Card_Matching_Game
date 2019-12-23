@@ -32,6 +32,7 @@ public class GamePanel extends JPanel {
     private CardButton c1;
     private CardButton c2;
     private Timer t;
+    private String bomb;
 
     private CommunicationPanel communicationPanel;
 
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel {
         this.game = game;
         this.communicationPanel = communicationPanel;
 
+
         //list of button elements that is linked to each card in board (list of cards)
 
 
@@ -54,7 +56,9 @@ public class GamePanel extends JPanel {
     public void initialize() {
 
         currentPlayer = game.getSettings().getPlayers().get(0);
+        this.communicationPanel.playerLabels.setActivePlayer(currentPlayer);
         cardsList = new ArrayList<>();
+        bomb = String.join("/", "Files", "bomb", String.join("_", game.getSettings().getTheme(), "bomb.jpg"));
 
         this.game.initialize();
 
@@ -66,10 +70,12 @@ public class GamePanel extends JPanel {
             ImageIcon newIcon = reSizeIcon(c, backIcon);
             c.setIcon(newIcon);
 
+
             //c.setId(val+100);
             c.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent ae){
                     selectedCard = c;
+                    //System.out.println("what is c: "+c.getVisibleIcon());
                     doTurn();
 
 
@@ -116,12 +122,23 @@ public class GamePanel extends JPanel {
     }
 
     public void checkCards(){
+
+        if (c1.getVisibleIcon().toString().equals(bomb) || c2.getVisibleIcon().toString().equals(bomb)){
+            System.out.println("it works!");
+        }
+
         if (c1.getVisibleIcon() == c2.getVisibleIcon()){//match condition
+            if (c1.getVisibleIcon().toString().equals(bomb)){
+                game.getSettings().setBombExtraPoint(currentPlayer);
+            }
+            else {
+                game.getSettings().setPoint(currentPlayer); //pass that point has been made
+
+            }
             c1.setEnabled(false); //disables the button
             c2.setEnabled(false);
             c1.setMatched(true); //flags the button as having been matched
             c2.setMatched(true);
-            game.getSettings().setPoint(currentPlayer); //pass that point has been made
             if (this.isGameWon()){
                 this.setWinner();
                 JOptionPane.showMessageDialog(this, game.getSettings().getPlayers().get(game.getSettings().getIntWinner()).getName() + "You win!");
@@ -135,6 +152,9 @@ public class GamePanel extends JPanel {
 
 
         else{
+            if (c1.getVisibleIcon().toString().equals(bomb) || c2.getVisibleIcon().toString().equals(bomb)){
+                game.getSettings().takeBombPoint(currentPlayer);
+            }
             c1.setIcon(backIcon);
             c2.setIcon(backIcon);
 
@@ -144,6 +164,8 @@ public class GamePanel extends JPanel {
 
         this.nextPlayer();
     }
+
+
 
     public boolean isGameWon(){
         for(CardButton c: this.cardsList){
@@ -181,6 +203,7 @@ public class GamePanel extends JPanel {
         this.communicationPanel.playerLabels.setActivePlayer(currentPlayer);
         this.communicationPanel.initialize();
     }
+
 
     public void saveHighScores() {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter("Files/highScores/highScores.txt"))) {

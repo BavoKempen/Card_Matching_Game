@@ -6,6 +6,7 @@ import model.Player;
 import model.Settings;
 
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,6 +16,16 @@ import java.util.Comparator;
 
 public class RunMemoryGame {
     public static void main (String[] args){
+
+        try {
+            for(LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
+                if ("Nimbus".equals(info.getName())){
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+        }
 
         SwingUtilities.invokeLater(new Runnable() { //To make it more robust, asynchronously queues the constructor on
             // event dispatching thread. Thank you YouTube!
@@ -30,6 +41,7 @@ public class RunMemoryGame {
 
             }
         });
+
 
     }
 

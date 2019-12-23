@@ -14,7 +14,6 @@ public class GameBoard {
 
         this.settings = settings;
 
-        //default -> ifelse
         CardDeck deck = new EasyCardDeck(settings.getTheme());
         CardDeck deckMedium = new MiddleCardDeck(settings.getTheme());
 
