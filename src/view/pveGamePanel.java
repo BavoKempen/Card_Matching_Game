@@ -1,10 +1,7 @@
 package view;
 
 import game.CardButton;
-import model.Card;
 import model.Game;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -73,7 +70,7 @@ public class pveGamePanel extends GamePanel {
 
 
         System.out.println("numbers: " + cardSelectList);
-        cardSelectList.add(5);
+        //cardSelectList.add(5);
         System.out.println("numbers: " + cardSelectList.size());
 
 
@@ -85,12 +82,20 @@ public class pveGamePanel extends GamePanel {
     }
     @Override
     public void setWinner(){
-        if (game.getSettings().getPlayers().get(0).getScore() >= game.getSettings().getPlayers().get(1).getScore()){
+        if (game.getSettings().getPlayers().get(0).getScore() > game.getSettings().getPlayers().get(1).getScore()){
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.getSettings().setIntWinner(0);
         }
-        else {
+        else if (game.getSettings().getPlayers().get(0).getScore() < game.getSettings().getPlayers().get(1).getScore()){
+            game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
             game.getSettings().setIntWinner(1);
+
+        }
+        else {
+            //game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
+            game.getSettings().setDraw(true);
+            //game.getSettings().setIntWinner(0);
+
         }
     }
 }

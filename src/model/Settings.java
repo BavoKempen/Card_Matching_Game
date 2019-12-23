@@ -21,6 +21,7 @@ public class Settings {
     private int number;
     private double height;
     private double width;
+    private boolean draw;
 
 
     public Settings(){
@@ -36,6 +37,8 @@ public class Settings {
         this.pointsPlayerTwo = 0;
         this.counter = 0;
         this.setCardChecked(false);
+        this.setDraw(false);
+
 
         this.addPlayer(new Player("Default John"));
         this.addPlayer((new Player("AI")));
@@ -160,6 +163,13 @@ public class Settings {
     }
     public double getIconHeight(){
         return this.getMainPanelHeight()/rows;
+    }
+
+    public void setDraw(boolean draw){
+        this.draw = draw;
+    }
+    public boolean getDraw(){
+        return this.draw;
     }
 
 

@@ -187,15 +187,20 @@ public class MainFrame extends JFrame {
         Settings settings = new Settings();
         game = new Game(settings);
         game.setKnownPlayers(tempArrayList);
-        settingsPanel = new SettingsPanel(game);
+        this.dispose();
+        //new RunMemoryGame();
+        new MainFrame(game);
+
         //communicationPanel = new CommunicationPanel(game);
         //actionPanel = new ActionPanel(game);
+        /*
         communicationPanel.playerLabels.initialize();
         mainPanel.add(settingsPanel, "settingsPanel");
         cardLayout.show(mainPanel, "settingsPanel");
 
-
         actionPanel.startButton.setEnabled(true);
+
+         */
     }
 
 }

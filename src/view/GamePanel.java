@@ -1,9 +1,11 @@
 package view;
 
 import game.*;
+import javafx.scene.control.skin.ToolBarSkin;
 import model.Card;
 import model.Game;
 import model.Player;
+import model.Settings;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,9 +24,7 @@ import java.util.Collections;
 public class GamePanel extends JPanel {
 
     //Info passed from settingspanel
-
     private Game game;
-
     private Image img;
 
     {
@@ -90,7 +89,7 @@ public class GamePanel extends JPanel {
                 public void actionPerformed(ActionEvent ae){
                     selectedCard = c;
                     //System.out.println("what is c: "+c.getVisibleIcon());
-                    doTurn();
+                    turnCard();
 
 
                 }
@@ -104,11 +103,13 @@ public class GamePanel extends JPanel {
         t = new Timer(750, new ActionListener(){
             public void actionPerformed(ActionEvent ae){
                 checkCards();
+
             }
 
         });
 
         t.setRepeats(false);
+
 
         //set up the board itself
         setLayout(new GridLayout(this.game.getSettings().getRows(),this.game.getSettings().getColumns()));
@@ -119,7 +120,7 @@ public class GamePanel extends JPanel {
     }
 
 
-    public void doTurn(){
+    public void turnCard(){
         if (c1 == null && c2 == null){
             c1 = selectedCard;
             c1.setIcon(resizeImageIcon((ImageIcon) c1.getVisibleIcon()));
@@ -155,10 +156,18 @@ public class GamePanel extends JPanel {
             c2.setMatched(true);
             if (this.isGameWon()){
                 this.setWinner();
-                JOptionPane.showMessageDialog(this, game.getSettings().getPlayers().get(game.getSettings().getIntWinner()).getName() + "You win!");
+                if (game.getSettings().getDraw() == true){
+                    JOptionPane.showMessageDialog(this, "It Was a Draw, Well Played!" + "\nPress Restart Game to Play Again!");
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Congratulations "+game.getSettings().getPlayers().get(game.getSettings().getIntWinner()).getName() + "\nYou Win!" + "\nPress Restart Game to Play Again!");
+
+                }
+
                 //save highscores
                 this.saveHighScores();
-                System.exit(0);
+
+                System.out.println(game.getSettings().getSinglePlayer());
             }
 
 
@@ -238,12 +247,12 @@ public class GamePanel extends JPanel {
             game.getSettings().setIntWinner(1);
         }
         else {
+            game.getSettings().setDraw(true);
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
         }
 
     }
-
 }
 
 
