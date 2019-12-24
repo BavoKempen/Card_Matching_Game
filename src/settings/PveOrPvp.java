@@ -1,34 +1,44 @@
 package settings;
 
 import model.Game;
-import model.Player;
-import model.Settings;
 import view.PlayerLabels;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+/*
+In Sum:
+    1) Player selects single or multiplayer (pve/pvp) through JRadiobutton
+        a) RadioButton: select one of either options
+        b) Has effect on whether second JTextfield is editable
+    2) Retrieve text from textfield(s) dependent on chosen option in 1) by user
+        a) Actionlistener on textfields to remove ";" and "-" so that user cannot use them in their name.
+        As such, avoiding problems with load in/write of highscores to database (highScores.txt).
+        b) Send changes in textfields to settings so that we can retrieve info in the PlayerLabels panel, highScoresPanel
+
+ */
 
 public class PveOrPvp extends JPanel {
 
+    // Used to pass information
     private Game game;
 
-    // Computer vs other human
-    //Labels
+    // Vs computer or vs other human
+    // Labels
     private JLabel playModeLabel;
     private JLabel nameLabel;
 
-    //create radiobuttons
-
-    //Buttons
+    // Create radiobuttons and put them in the group so that only one can be selected at any given time
+    // Buttons
     JRadioButton pveButton;
     JRadioButton pvpButton;
     private ButtonGroup playModeButtonGroup;
 
-    //text fields
+    // Text fields
     public JTextField playerOne;
     public JTextField playerTwo;
 
@@ -37,20 +47,47 @@ public class PveOrPvp extends JPanel {
 
     public PveOrPvp(Game game){
 
+        // Pass info
         this.game = game;
+
         // Computer vs. human with radio buttons
         playModeLabel = new JLabel("Game Mode");
         nameLabel = new JLabel("Player Name");
 
-        //Buttons + group (so that only one can be clicked at a given time)
+        // Buttons + group (so that only one can be clicked at a given time)
         pveButton = new JRadioButton("PVE", true); //default on PVE
         pveButton.setHorizontalTextPosition(SwingConstants.LEFT); //label of button left
+
         pvpButton = new JRadioButton("PVP");
         pvpButton.setHorizontalTextPosition(SwingConstants.LEFT);
+
         playModeButtonGroup = new ButtonGroup();
+
         // Text fields for player names
         playerOne = new JTextField(20);
         playerTwo = new JTextField(20);
+
+        // Add keylisteners to jtextfields so that ";" and "-" cannot be used in the username.
+        // Symbols are removed from field when user writes them.
+        playerOne.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char ch = e.getKeyChar();
+                if (ch == KeyEvent.VK_SEMICOLON || ch == KeyEvent.VK_MINUS){
+                    e.consume();
+                }
+            }
+        });
+
+        playerTwo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char ch = e.getKeyChar();
+                if (ch == KeyEvent.VK_SEMICOLON || ch == KeyEvent.VK_MINUS){
+                    e.consume();
+                }
+            }
+        });
 
 
 
@@ -87,19 +124,19 @@ public class PveOrPvp extends JPanel {
         c.gridy = 2;
         add(playerTwo, c);
 
-        //align everything to the left
+        // Align everything to the left
         c.anchor=GridBagConstraints.WEST;
-        //Action Listeners
-        //add SAME action listener to buttons, so that switching inbetween (de)activates the player two text field
+
+        // Action Listeners
+        // Add SAME action listener to buttons, so that switching in-between (de)activates the player two text field
         pveButton.addActionListener(new EnableListener());
         pvpButton.addActionListener(new EnableListener());
 
-        //TEXT field
-
-        //default on PVE, so deselect the playertwo text field a priori
+        // Default on PVE, so deselect the playertwo text field a priori
         playerTwo.setEnabled(false);
     }
 
+    // Save names to Player object in players ArrayList in the settings
     public void saveSettings(){
         String nameOne = playerOne.getText();
         String nameTwo = playerTwo.getText();
@@ -113,16 +150,15 @@ public class PveOrPvp extends JPanel {
         }
     }
 
-
-    private class EnableListener implements ActionListener { //control textfields according to radiobutton pressed (pvp/pve)
+    // The actionlistener for the radiobuttons and communication of their selection with settings
+    private class EnableListener implements ActionListener { // Control textfields according to radiobutton pressed (pvp/pve)
         @Override
-        public void actionPerformed(ActionEvent actionEvent) { //make playerTwo textfield writable after selecting pvp AND clear it again if pve is reselected
+        public void actionPerformed(ActionEvent actionEvent) { // Make playerTwo textfield writable after selecting pvp
+            // AND clear it again if pve is reselected
             if(pvpButton.isSelected()) {
                 playerTwo.setEnabled(true);
                 game.getSettings().setSinglePlayer(false);
             }
-
-
 
             else if (pveButton.isSelected()){
                 playerTwo.setEnabled(false);
@@ -130,8 +166,5 @@ public class PveOrPvp extends JPanel {
                 game.getSettings().setSinglePlayer(true);
             }
         }
-
-
-
     }
 }

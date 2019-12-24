@@ -6,63 +6,70 @@ import model.Player;
 import javax.swing.*;
 import java.awt.*;
 
+/*
+In Sum:
+        1) PlayerLabels class actually is the dynamic part of the communcationPanel during the game
+            a) Serves as subcontainer for JLabels used here.
+            b) setActivePlayer method
+            c) initialize method
+ */
+
 public class PlayerLabels extends JPanel {
 
-
+    // Pass info
     private Game game;
 
-    public JLabel playerOneLabel;
-    public JLabel playerTwoLabel;
-    private JLabel vs;
-    public JLabel playerOneScore;
-    public JLabel playerTwoScore;
-    private JLabel currentGame;
+    // JLabels that will be "refreshed" during game
+    private JLabel playerOneScore;
+    private JLabel playerTwoScore;
     private JLabel activePlayerLabel;
+
+    // JLabels initialized during game start up etc.
+    private JLabel playerOneLabel;
+    private JLabel playerTwoLabel;
+    private JLabel vs;
 
 
 
     public PlayerLabels(Game game){
 
+        // Pass information
         this.game = game;
 
+        // More control over Layout
         GridBagConstraints c = new GridBagConstraints();
         setLayout(new GridBagLayout());
 
-
+        // Initialize labels with infor derived from settings through game
         playerOneLabel = new JLabel(game.getSettings().getPlayers().get(0).getName(),SwingConstants.LEFT);
         playerTwoLabel = new JLabel(game.getSettings().getPlayers().get(1).getName(),SwingConstants.LEFT);
-        activePlayerLabel = new JLabel(game.getSettings().getPlayers().get(0).getName() + "'s turn", SwingConstants.CENTER);
 
+        playerOneScore = new JLabel("Score: " + game.getSettings().getPlayers().get(0).getScore(),SwingConstants.LEFT);
+        playerTwoScore = new JLabel("Score: " + game.getSettings().getPlayers().get(1).getScore(), SwingConstants.LEFT);
+
+        activePlayerLabel = new JLabel(game.getSettings().getPlayers().get(0).getName() + "'s turn", SwingConstants.CENTER);
         vs = new JLabel("Versus",SwingConstants.CENTER);
 
-        System.out.println("repaint PlayerLabels" +game.getSettings().getMainPanelHeight()*.4);
-        playerOneScore = new JLabel("Score: " + game.getSettings().getPlayers().get(0).getScore(),SwingConstants.LEFT); //+ game.getSettings().getPointsPlayerOne()
-        playerTwoScore = new JLabel("Score: " + game.getSettings().getPlayers().get(1).getScore(), SwingConstants.LEFT);//+ game.getSettings().getPointsPlayerTwo()
-
+        // Customize JLabel's size and fonts
         playerOneLabel.setPreferredSize(new Dimension(110, 40));
         playerOneScore.setPreferredSize(new Dimension(110, 40));
+
         playerOneLabel.setFont(new Font("Serif", Font.BOLD,16));
         playerOneScore.setFont(new Font("Serif", Font.BOLD,16));
-        //playerOneLabel.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.5),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.2)));
-        //playerOneScore.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.5),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.2)));
 
-        //vs.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.2)));
         vs.setPreferredSize(new Dimension(220, 40));
         vs.setFont(new Font("Serif", Font.BOLD,20));
 
         playerTwoLabel.setPreferredSize(new Dimension(110,40));
         playerTwoScore.setPreferredSize(new Dimension(110,40));
+
         playerTwoLabel.setFont(new Font("Serif", Font.BOLD,16));
         playerTwoScore.setFont(new Font("Serif", Font.BOLD,16));
+
         activePlayerLabel.setPreferredSize(new Dimension(220, 65));
         activePlayerLabel.setFont(new Font("Serif", Font.BOLD,20));
-        //playerTwoLabel.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.5),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.2)));
-        //playerTwoScore.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)*.5),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.2)));
-        //activePlayerLabel.setPreferredSize(new Dimension((int) Math.round((game.getSettings().getCommunicationPanelWidth()*.9)),(int) Math.round((game.getSettings().getMainPanelHeight()*.4)*.4)));
-//        game.getSettings().setGreen(playerOneLabel);
-  //      game.getSettings().setRed(playerTwoLabel);
 
-
+        // Define GridBagConstraints for each component and position them respectively in the JPanel of PlayerLabels
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx =0;
         c.gridy =0;
@@ -103,20 +110,23 @@ public class PlayerLabels extends JPanel {
 
     }
 
+    // Method: Receives name from the gamePanel where this is set every turn
     public void setActivePlayer(Player p) {
+
         activePlayerLabel.setText(p.getName() + "'s turn");
 
     }
 
-
+    // Separate initialization because score has to be updated one move behind activePlayerLabel
     public void initialize() {
+
+        // Update information: Summarized flow: gamePanel -> settings -> playerLabels
         playerOneLabel.setText(game.getSettings().getPlayers().get(0).getName());
         playerTwoLabel.setText(game.getSettings().getPlayers().get(1).getName());
 
         playerOneScore.setText("Score: " + game.getSettings().getPlayers().get(0).getScore());
         playerTwoScore.setText("Score: " + game.getSettings().getPlayers().get(1).getScore());
 
-        //activePlayerLabel.setText(game.getSettings().getPlayers().get(0).getName()+ "'s turn");
     }
 }
 

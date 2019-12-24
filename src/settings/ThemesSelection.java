@@ -9,30 +9,29 @@ import java.awt.event.ActionListener;
 
 public class ThemesSelection extends JPanel {
 
+    // Pass info
     private Game game;
 
-
-    //Label
+    // Label
     private JLabel themesLabel;
 
-    //buttons
+    // Buttons
     ButtonGroup themesButtonGroup;
     JRadioButton shoesButton;
-    JRadioButton mathsButton;
     JRadioButton worldLeadersButton;
-    String gameTheme = "shoes";
-
 
     public ThemesSelection(Game game){
 
         this.game = game;
 
-        //Label assign text
+        // Label assign text
         themesLabel = new JLabel("Theme:");
 
-        //Buttons
+        // Buttons
         shoesButton = new JRadioButton("Shoes");
         worldLeadersButton = new JRadioButton("World Leaders");
+
+        // Group buttons so that only one can be selected
         themesButtonGroup = new ButtonGroup();
 
         //join buttons
@@ -47,32 +46,33 @@ public class ThemesSelection extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
+        // Make following components align northwest
+        c.anchor=GridBagConstraints.NORTHWEST;
 
-        //Label
+        // Label
         c.gridx = 0;
         c.gridy = 0;
         add(themesLabel, c);
 
-        //Button player one and player two
+        // Buttons
         c.gridy = 1;
         add(shoesButton, c);
 
-        //text fields for names of player one and possibly player two
         c.gridy = 2;
         add(worldLeadersButton,c);
-        c.anchor=GridBagConstraints.NORTHWEST;
 
 
-        //actual listeners
-        //append value to string variable to later insert at Start button to choose the theme
+        // Actual listeners
+        // Append value to string variable in settings through game to later use in construction game
+        // Default selected, also specified as such in settings
         shoesButton.setSelected(true);
 
     }
-    public class ThemeListener implements ActionListener {
+
+    private class ThemeListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ee) {
-
 
             if (shoesButton.isSelected())
                 game.getSettings().setTheme("shoes");
@@ -82,6 +82,4 @@ public class ThemesSelection extends JPanel {
 
         }
     }
-
-
 }
