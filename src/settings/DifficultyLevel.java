@@ -44,9 +44,8 @@ public class DifficultyLevel extends JPanel {
 
         // Make table with labels and respective position
         Hashtable<Integer, JLabel> positionLabels = new Hashtable<Integer, JLabel>();
-        positionLabels.put(1, new JLabel("EZ"));
-        positionLabels.put(2, new JLabel("PZ"));
-        // positionLabels.put(3, new JLabel("GG"));
+        positionLabels.put(1, new JLabel("No Bomb Card"));
+        positionLabels.put(2, new JLabel("Bomb Card"));
 
         // Add labels to respective spot on slider
         difficultySlider.setLabelTable(positionLabels);

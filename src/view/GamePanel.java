@@ -196,10 +196,18 @@ public class GamePanel extends JPanel {
             }
 
             else {
+                // If the first person to find two matching cards is the FirstPlayer add two points instead of two
+                if (game.getSettings().getPlayers().get(0).getScore() == 0 && game.getSettings().getPlayers().get(1).getScore() == 0 && currentPlayer == game.getSettings().getPlayers().get(0)){
 
-                // Just add one point
-                game.getSettings().setPoint(currentPlayer); //pass that point has been made
+                    game.getSettings().setExtraPoint(currentPlayer);
 
+                }
+
+                else {
+                    // Just add one point to whoever scored a point
+                    game.getSettings().setPoint(currentPlayer); //pass that point has been made
+
+                }
             }
 
             // Disable RadioButtons and keep them turned upside down through setMatched
@@ -234,7 +242,7 @@ public class GamePanel extends JPanel {
 
         // If the CardButton c1 is not equal to c2 then we check for bombs and apply penalty if present to respective
         // player's score, thereafter, "turns" the icons again and sets c1 & c2 to null so that process can be repeated.
-        else{
+        else {
 
             if (c1.getVisibleIcon().toString().equals(bomb) || c2.getVisibleIcon().toString().equals(bomb)){
 
