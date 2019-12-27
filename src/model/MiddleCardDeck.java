@@ -17,7 +17,7 @@ public class MiddleCardDeck implements CardDeck {
 
         // Again set defaults cf. EasyCardDeck
         String defaultMap = "Files/";
-        int pairs = 8;
+        int PAIRS = 18;
 
         // Add the bomb Card a priori to the list of Cards
         String bombName = defaultMap+"bomb/"+themeLocation+"_bomb.jpg";
@@ -25,9 +25,9 @@ public class MiddleCardDeck implements CardDeck {
         cards.add(new Card(bombIcon));
 
         // Same as in EasyCardDeck
-        for (int i=0; i<pairs; i++){
+        for (int i=0; i<PAIRS; i++){
 
-            ImageIcon[] icon = new ImageIcon[pairs];
+            ImageIcon[] icon = new ImageIcon[PAIRS];
             String imageName = defaultMap+themeLocation+"/"+i+".jpg";
             icon[i] = new ImageIcon(imageName);
 

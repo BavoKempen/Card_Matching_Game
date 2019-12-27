@@ -3,6 +3,7 @@ package actions;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 /*
@@ -16,7 +17,11 @@ public class OpenRules implements ActionListener {
         // Avoid errors
         try {
 
-            Desktop.getDesktop().open(new java.io.File("Files/RULES.txt"));
+            File myFile = new File("Files/RULES.pdf");
+            myFile.setWritable(false);
+
+            Desktop.getDesktop().open(myFile);
+            //Desktop.getDesktop().open(new java.io.File("Files/RULES.pdf"));
 
         } catch (IOException e) {
 

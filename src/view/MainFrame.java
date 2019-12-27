@@ -95,8 +95,8 @@ public class MainFrame extends JFrame {
         if (e.getSource() == actionPanel.exitButton){
 
             // Show dialog pop up when user wants to quit, only if again confirmed the application is closed
-            int confirmed = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit the program?",
-                    "Exit Game", JOptionPane.YES_NO_OPTION);
+            int confirmed = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit the Application?",
+                    "Exit Application", JOptionPane.YES_NO_OPTION);
             if (confirmed == JOptionPane.YES_OPTION){
                 System.exit(0);
 
@@ -105,9 +105,15 @@ public class MainFrame extends JFrame {
 
         if (e.getSource() == actionPanel.restartButton){
 
-            // Calls method defined underneath. Still threading issues.
-            restartGame();
+            int confirmed = JOptionPane.showConfirmDialog(null,"Are you sure you want to exit the current game?",
+                    "Exit Game", JOptionPane.YES_NO_OPTION);
 
+            if (confirmed == JOptionPane.YES_OPTION){
+
+                // Calls method defined underneath. Still threading issues.
+                restartGame();
+
+            }
         }
     }
 
@@ -119,7 +125,7 @@ public class MainFrame extends JFrame {
         // Dependent of single vs multiplayer the gamePanel is initialized respectively and added to the
         // mainPanel
         if (game.getSettings().getSinglePlayer()) {
-            gamePanel = new pveGamePanel(game, communicationPanel);
+            gamePanel = new PveGamePanel(game, communicationPanel);
         } else {
             gamePanel = new GamePanel(game , communicationPanel);
         }
@@ -134,8 +140,9 @@ public class MainFrame extends JFrame {
         // Bring the gamePanel to the front and the settingsPanel to the back in mainPanel container
         cardLayout.show(mainPanel, "gamePanel");
 
-        //Turn off start game button (because game has started)
+        //Turn off start game button and turn on restart button (because game has started)
         actionPanel.startButton.setEnabled(false);
+        actionPanel.restartButton.setEnabled(true);
     }
 
     public void restartGame(){
@@ -160,7 +167,6 @@ public class MainFrame extends JFrame {
         new MainFrame(game);
 
     }
-
 }
 
 

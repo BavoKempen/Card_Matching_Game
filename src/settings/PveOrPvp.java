@@ -55,10 +55,10 @@ public class PveOrPvp extends JPanel {
         nameLabel = new JLabel("Player Name");
 
         // Buttons + group (so that only one can be clicked at a given time)
-        pveButton = new JRadioButton("PVE", true); //default on PVE
+        pveButton = new JRadioButton("PvE", true); //default on PVE
         pveButton.setHorizontalTextPosition(SwingConstants.LEFT); //label of button left
 
-        pvpButton = new JRadioButton("PVP");
+        pvpButton = new JRadioButton("PvP");
         pvpButton.setHorizontalTextPosition(SwingConstants.LEFT);
 
         playModeButtonGroup = new ButtonGroup();
@@ -88,7 +88,6 @@ public class PveOrPvp extends JPanel {
                 }
             }
         });
-
 
 
         //join buttons in button group so that only one can be selected at any given time

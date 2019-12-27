@@ -17,7 +17,7 @@ In Sum:
 
  */
 
-public class pveGamePanel extends GamePanel {
+public class PveGamePanel extends GamePanel {
 
     // Pass information and access to communicationPanel
     private Game game;
@@ -29,7 +29,8 @@ public class pveGamePanel extends GamePanel {
     // Needed in PlayAITurn(), serves as temporary container for two numbers
     private ArrayList<Integer> cardSelectList = new ArrayList<Integer>();
 
-    public pveGamePanel(Game game, CommunicationPanel communicationPanel) {
+
+    public PveGamePanel(Game game, CommunicationPanel communicationPanel) {
 
         // Extends from ...
         super(game, communicationPanel);
@@ -113,6 +114,8 @@ public class pveGamePanel extends GamePanel {
         // Same as in gamePanel
         if (game.getSettings().getPlayers().get(0).getScore() > game.getSettings().getPlayers().get(1).getScore()){
 
+            // Normalize score
+            game.getSettings().getPlayers().get(0).setScore(game.getSettings().getPlayers().get(0).getScore()/((this.game.getSettings().getRows()*this.game.getSettings().getColumns())/2));
 
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.getSettings().setIntWinner(0);
@@ -126,6 +129,9 @@ public class pveGamePanel extends GamePanel {
         }
 
         else {
+            // Normalize score
+            game.getSettings().getPlayers().get(0).setScore(game.getSettings().getPlayers().get(0).getScore()/((game.getSettings().getRows()*game.getSettings().getColumns())/2));
+
             // Only add human to database
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.getSettings().setDraw(true);

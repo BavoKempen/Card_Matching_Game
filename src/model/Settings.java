@@ -58,6 +58,7 @@ public class Settings {
         // Declare ArrayList and add two default names in case user does not provide one or plays pve (AI).
         // The two default names get overwritten on game start up
         players = new ArrayList<Player>();
+
         this.addPlayer(new Player("Guest Player"));
         this.addPlayer((new Player("AI")));
 

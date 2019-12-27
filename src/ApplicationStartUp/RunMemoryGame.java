@@ -1,9 +1,10 @@
-package view;
+package ApplicationStartUp;
 
 import javafx.scene.effect.Blend;
 import model.Game;
 import model.Player;
 import model.Settings;
+import view.MainFrame;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -112,7 +113,8 @@ public class RunMemoryGame {
 
         String temp = "";
         String name = "";
-        int score = 0;
+        double score = 0;
+
         for(int i = 0; i<result.length(); i++){
             if (result.charAt(i)=='-'){
                 name = temp;
@@ -120,7 +122,7 @@ public class RunMemoryGame {
 
                 i++;
             } else if (result.charAt(i)==';') {
-                score = Integer.parseInt(temp);
+                score = Double.parseDouble(temp);
                 temp = "";
 
                 Player player = new Player(name);

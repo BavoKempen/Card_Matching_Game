@@ -39,7 +39,7 @@ public class ActionPanel extends JPanel{
 
         // Buttons
         startButton = new JButton("Start Game");
-        exitButton = new JButton("End Game");
+        exitButton = new JButton("Exit Application");
         restartButton = new JButton("Restart Game");
         rulesButton = new JButton("Game Rules");
 
@@ -57,9 +57,11 @@ public class ActionPanel extends JPanel{
 
         // Add buttons from left to right in this order
         add(startButton);
-        add(exitButton);
         add(restartButton);
+        add(exitButton);
         add(rulesButton);
+
+        restartButton.setEnabled(false);
 
         // ActionListener of rules Buttons, more info in class OpenRules
         rulesButton.addActionListener(new OpenRules());

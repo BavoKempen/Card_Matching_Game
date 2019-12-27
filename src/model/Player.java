@@ -7,7 +7,8 @@ In Sum:
             a) These are put in an ArrayList and derived from there based on their index in list
             b) Every Player object has setter and getter for both name and score so that through settings these can be
             updated at all time and stored accordingly.
-            c) Also used to construct ArrayList of highscores that consists of Player objects with respective name and score
+            c) Also used to construct ArrayList of high scores that consists of Player objects with respective name and score
+            d) Type double was chosen for the scores variable to enable normalization in the high scores
 
  */
 
@@ -15,7 +16,7 @@ public class Player {
 
     // Declare variables in Player Class
     private String name;
-    private int score;
+    private double score;
 
     // Pass name through constructor so that name can be set accordingly with setName method
     // As such it is used when creating a new Player object and name is passed to indicate new Player with score = 0
@@ -42,13 +43,13 @@ public class Player {
 
     }
 
-    public void setScore(int score){
+    public void setScore(double score){
 
         this.score = score;
 
     }
 
-    public int getScore(){
+    public double getScore(){
 
         return this.score;
 

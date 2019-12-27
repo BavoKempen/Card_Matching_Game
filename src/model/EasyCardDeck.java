@@ -31,13 +31,13 @@ public class EasyCardDeck implements CardDeck {
         String defaultMap = "Files/";
 
         // Amount of pictures present in Files/*/*.jpg
-        int pairs = 8;
+        int PAIRS = 18;
 
         // Load in images iteratively and add to the ArrayList<Card> cards.
         // Images are named as 0.jpg, 1.jpg for the purpose of this for loop
-        for (int i=0; i<pairs; i++){
+        for (int i=0; i<PAIRS; i++){
 
-            ImageIcon[] icon = new ImageIcon[pairs];
+            ImageIcon[] icon = new ImageIcon[PAIRS];
             String imageName = defaultMap+themeLocation+"/"+i+".jpg";
             icon[i] = new ImageIcon(imageName);
 

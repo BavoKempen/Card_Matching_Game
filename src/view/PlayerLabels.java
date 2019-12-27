@@ -113,7 +113,7 @@ public class PlayerLabels extends JPanel {
     // Method: Receives name from the gamePanel where this is set every turn
     public void setActivePlayer(Player p) {
 
-        activePlayerLabel.setText(p.getName() + "'s turn");
+        activePlayerLabel.setText(p.getName() + "'s turn!");
 
     }
 
@@ -124,8 +124,13 @@ public class PlayerLabels extends JPanel {
         playerOneLabel.setText(game.getSettings().getPlayers().get(0).getName());
         playerTwoLabel.setText(game.getSettings().getPlayers().get(1).getName());
 
-        playerOneScore.setText("Score: " + game.getSettings().getPlayers().get(0).getScore());
-        playerTwoScore.setText("Score: " + game.getSettings().getPlayers().get(1).getScore());
+        // Cast from double to int for display during the game, we cannot do this within setText hence the two local
+        // variables in this method.
+        int scorePlayerOne = (int) game.getSettings().getPlayers().get(0).getScore();
+        int scorePlayerTwo = (int) game.getSettings().getPlayers().get(1).getScore();
+
+        playerOneScore.setText("Score: " + scorePlayerOne);
+        playerTwoScore.setText("Score: " + scorePlayerTwo);
 
     }
 }

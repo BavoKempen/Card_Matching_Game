@@ -53,7 +53,7 @@ public class HighScoresPanel extends JPanel {
             // rank + 1 because of 0 indexing in java
             int rank = i +1;
             String playerName = game.getKnownPlayers().get(i).getName();
-            int playerScore = game.getKnownPlayers().get(i).getScore();
+            double playerScore = game.getKnownPlayers().get(i).getScore();
 
             // Equals predefined columnNames
             Object[] dataRows = {rank, playerName, playerScore};

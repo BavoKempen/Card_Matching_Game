@@ -23,8 +23,8 @@ import java.util.Collections;
         a) Game is used to pass information within the GamePanel class and between numerous other classes and methods
         b) The method initialize() is called in MainFrame after startButton click
         c) GamePanel() only contains game logic of player versus player (pvp) games, instead against the computer is
-        the class pveGamePanel extended from GamePanel(). As such, I could adjust the game logic with short @override in
-        the pveGamePanel. Nonetheless, main game flow and logic is the same aside from user to user interaction and communication
+        the class PveGamePanel extended from GamePanel(). As such, I could adjust the game logic with short @override in
+        the PveGamePanel. Nonetheless, main game flow and logic is the same aside from user to user interaction and communication
         to highscores, ...
     2) Methods used during the game can be found underneath and communicate with game and settings through setters and getters
 
@@ -63,6 +63,10 @@ public class GamePanel extends JPanel {
     // Relevant if difficulty with bombs was chosen
     private String bomb;
 
+    // Rows and columns to keep code cleaner
+    private int rows;
+    private int columns;
+
     // To be able to communicate between gamePanel and communicationPanel
     private CommunicationPanel communicationPanel;
 
@@ -82,6 +86,10 @@ public class GamePanel extends JPanel {
 
     // Contains actual game logic
     public void initialize() {
+
+        // Get the rows and columns to pass later
+        this.rows = game.getSettings().getRows();
+        this.columns = game.getSettings().getColumns();
 
         // Set currentplayer to Player one (playerOne textfield in PveOrPvp), pass it to the communication panel so that
         // it is adjusted accordingly
@@ -138,7 +146,7 @@ public class GamePanel extends JPanel {
         t.setRepeats(false);
 
         // GridLayout, because allows for easy configuration of dynamic grids
-        setLayout(new GridLayout(this.game.getSettings().getRows(),this.game.getSettings().getColumns()));
+        setLayout(new GridLayout(this.rows,this.columns));
 
         // Add the CardButtons to the GridLayout according to user input rows and columns for this game retrieved from settings
         for (CardButton c : cardsList){
@@ -340,6 +348,9 @@ public class GamePanel extends JPanel {
         // if playerOne's score > playerTwo's score
         if (game.getSettings().getPlayers().get(0).getScore() > game.getSettings().getPlayers().get(1).getScore()){
 
+            // Normalize score
+            game.getSettings().getPlayers().get(0).setScore(game.getSettings().getPlayers().get(0).getScore()/((this.rows*this.columns)/2));
+
             // Add Player object of playerOne with its score and name to the list of KnownPlayers (a.k.a. highScores)
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.getSettings().setIntWinner(0);
@@ -349,6 +360,10 @@ public class GamePanel extends JPanel {
         // Reverse of above
         else if(game.getSettings().getPlayers().get(0).getScore() < game.getSettings().getPlayers().get(1).getScore()){
 
+            //Normalize
+            game.getSettings().getPlayers().get(1).setScore(game.getSettings().getPlayers().get(1).getScore()/((this.rows*this.columns)/2));
+
+            // Add to HighScores
             game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
             game.getSettings().setIntWinner(1);
 
@@ -358,6 +373,11 @@ public class GamePanel extends JPanel {
         else {
 
             game.getSettings().setDraw(true);
+
+            // Normalize
+            game.getSettings().getPlayers().get(0).setScore(game.getSettings().getPlayers().get(0).getScore()/((this.rows*this.columns)/2));
+            game.getSettings().getPlayers().get(1).setScore(game.getSettings().getPlayers().get(1).getScore()/((this.rows*this.columns)/2));
+
             game.addToKnownPlayers(game.getSettings().getPlayers().get(0));
             game.addToKnownPlayers(game.getSettings().getPlayers().get(1));
 
