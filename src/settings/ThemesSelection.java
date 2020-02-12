@@ -9,89 +9,77 @@ import java.awt.event.ActionListener;
 
 public class ThemesSelection extends JPanel {
 
+    // Pass info
     private Game game;
 
-
-    //Label
+    // Label
     private JLabel themesLabel;
 
-    //buttons
+    // Buttons
     ButtonGroup themesButtonGroup;
     JRadioButton shoesButton;
-    JRadioButton mathsButton;
     JRadioButton worldLeadersButton;
-    String gameTheme = "shoes";
-
 
     public ThemesSelection(Game game){
 
         this.game = game;
 
-        //Label assign text
+        // Label assign text
         themesLabel = new JLabel("Theme:");
 
-        //Buttons
+        // Buttons
         shoesButton = new JRadioButton("Shoes");
-        mathsButton = new JRadioButton("Mathematics");
         worldLeadersButton = new JRadioButton("World Leaders");
+
+        // Group buttons so that only one can be selected
         themesButtonGroup = new ButtonGroup();
 
         //join buttons
         themesButtonGroup.add(shoesButton);
-        themesButtonGroup.add(mathsButton);
         themesButtonGroup.add(worldLeadersButton);
 
         //Action Listeners
         shoesButton.addActionListener(new ThemeListener());
-        mathsButton.addActionListener(new ThemeListener());
         worldLeadersButton.addActionListener(new ThemeListener());
 
         //Layout of the panel
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
+        // Make following components align northwest
+        c.anchor=GridBagConstraints.NORTHWEST;
 
-        //Label
+        // Label
         c.gridx = 0;
         c.gridy = 0;
         add(themesLabel, c);
 
-        //Button player one and player two
+        // Buttons
         c.gridy = 1;
         add(shoesButton, c);
 
         c.gridy = 2;
-        add(mathsButton, c);
-
-
-        //text fields for names of player one and possibly player two
-        c.gridy = 3;
         add(worldLeadersButton,c);
-        c.anchor=GridBagConstraints.NORTHWEST;
 
 
-        //actual listeners
-        //append value to string variable to later insert at Start button to choose the theme
+        // Actual listeners
+        // Append value to string variable in settings through game to later use in construction game
+        // Default selected, also specified as such in settings
         shoesButton.setSelected(true);
 
     }
-    public class ThemeListener implements ActionListener {
+
+    private class ThemeListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ee) {
 
-
             if (shoesButton.isSelected())
                 game.getSettings().setTheme("shoes");
-            else if (mathsButton.isSelected())
-                game.getSettings().setTheme("mathematics");
+
             else if (worldLeadersButton.isSelected())
                 game.getSettings().setTheme("worldleaders");
 
-
-
         }
     }
-
-
 }

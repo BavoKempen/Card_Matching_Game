@@ -1,69 +1,71 @@
 package settings;
 
 import model.Game;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Hashtable;
 
+/*
+In sum:
+    1) User selects difficulty level of game with JSlider which is placed in a JPanel as container
+        a) easy -> no bombs in game
+        b) medium -> bombs in game
+        c) difficult -> multiple bombs in the game
+
+ */
+
 public class DifficultyLevel extends JPanel {
 
+    // To pass and retrieve information
     private Game game;
 
-    //Label
+    //Label to indicate name
     private JLabel difficultyLabel;
 
-    //Slider
+    //Slider: Component that will be used for information transmission from user -> game
     private JSlider difficultySlider;
-    private DefaultBoundedRangeModel sliderModel;
-    private Hashtable positionLabels;
-
-    //variable to store difficulty, initiate as 1, otherwise default = 0 and will cause error
-    int difficultyInt = 1;
-
 
     public DifficultyLevel(Game game){
 
         this.game = game;
 
-        //Label
+        // Label
         difficultyLabel = new JLabel("Difficulty Level");
 
-        //Slider
-        //sliderModel = new DefaultBoundedRangeModel(1,1,4);
-        difficultySlider = new JSlider(1,2,1); //slider with our values
-        difficultySlider.setMajorTickSpacing(1); //put ticks on slider (1-4)
-        difficultySlider.setPaintTicks(true); //make the ticks visible
+        // Slider
+        difficultySlider = new JSlider(1,2,1); // slider with our values
+        difficultySlider.setMajorTickSpacing(1); // put ticks on slider (1-4)
+        difficultySlider.setPaintTicks(true); // make the ticks visible
 
-        //labels to be put on the ticks
+        // Labels to be put on the ticks
         difficultySlider.setPaintLabels(true);
 
-        //make table with labels and respective position
+        // Make table with labels and respective position
         Hashtable<Integer, JLabel> positionLabels = new Hashtable<Integer, JLabel>();
-        positionLabels.put(1, new JLabel("EZ"));
-        positionLabels.put(2, new JLabel("PZ"));
-        //positionLabels.put(3, new JLabel("GG"));
-        //positionLabels.put(4, new JLabel("WP"));
-        //add labels to respective spot on slider
+        positionLabels.put(1, new JLabel("No Bomb Card"));
+        positionLabels.put(2, new JLabel("Bomb Card"));
+
+        // Add labels to respective spot on slider
         difficultySlider.setLabelTable(positionLabels);
 
-        //Layout of the panel
+        // Layout of the panel
         setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-
-        //Label
+        // Label position
         c.gridx = 0;
         c.gridy = 0;
         add(difficultyLabel, c);
 
-        //Button player one and player two
+        // Button player one and player two
         c.gridy = 1;
         add(difficultySlider, c);
 
-        //add listener to slider
+        // Add CHANGElistener to slider
+        // Respective value in Settings gets updated whenever slider value changes (integer) and is thereafter used in
+        // gamePanel construction (i.e., addition of bomb cards)
         difficultySlider.addChangeListener(new difficultyChangeListener());
 
 
@@ -73,11 +75,13 @@ public class DifficultyLevel extends JPanel {
     }
 
     public class difficultyChangeListener implements ChangeListener {
+
+        // Override value when change happens, store it and communicate it to Settings of game
         @Override
         public void stateChanged(ChangeEvent eee) {
+
             JSlider sourceSlider = (JSlider) eee.getSource();
             game.getSettings().setDifficulty(sourceSlider.getValue());
-
 
         }
     }
